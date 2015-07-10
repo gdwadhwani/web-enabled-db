@@ -66,15 +66,15 @@
         }
         elseif($_POST['sign'] == 'Cos')
         {
-            echo "<option selected = 'selected'>Cos</option>
-            <option>Sin </option>
+            echo "<option>Sin </option>
+            <option selected = 'selected'>Cos</option>
             <option>Tan</option>";
         }
         elseif($_POST['sign'] == 'Tan')
         {
-            echo "<option selected = 'selected'>Tan</option>
+            echo "<option>Sin</option>
             <option>Cos</option>
-            <option>Sin</option>";
+            <option selected = 'selected'>Tan</option>";
         }
         echo "</select>";
     }
