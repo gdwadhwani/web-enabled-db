@@ -2,7 +2,7 @@
     
     if (isset($_POST['degree']))
     {
-        if (empty($_POST['degree']))
+        if ($_POST['degree'] == "")
         {
             echo "You submitted an empty form.";
         }
@@ -15,15 +15,15 @@
                     $answer = math($_POST['sign'], $_POST['degree']);
                     if ($_POST['sign'] == "Cos")
                     {
-                        echo "The Cosine of " . $_POST['degree'] . " is " . $answer;
+                        echo "The Cosine of " . $_POST['degree'] . "° is " . $answer;
                     }
                     elseif($_POST['sign'] == "Sin")
                     {
-                        echo "The Sine of " . $_POST['degree'] . " is " . $answer;
+                        echo "The Sine of " . $_POST['degree'] . "° is " . $answer;
                     }
                     else
                     {
-                        echo "The Tangent of " . $_POST['degree']  . " is " . $answer;
+                        echo "The Tangent of " . $_POST['degree']  . "° is " . $answer;
                     }
                 }
                 else
@@ -87,12 +87,12 @@
         </select>";
     }
     
-    echo "<input type='text' name='degree' size= '10' value = '";
+    echo "<input type='text' name='degree' size= '5' value = '";
     if (isset($_POST['degree']))
     {
         echo $_POST['degree'];
     }
-    echo "'>
+    echo "'>°
     <input type = 'submit' value = 'Go!'>
     </form>"
 ?>

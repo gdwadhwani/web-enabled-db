@@ -21,7 +21,7 @@
             }
         else
             {
-                echo "Number 2 cannot be smaller than Number 1";  
+                echo "Start number cannot be greater than end number";  
             }
     }
 
