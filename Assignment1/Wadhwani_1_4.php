@@ -54,7 +54,8 @@
         }
     }
     
-    echo "<form action='Wadhwani_1_4.php' method='post'>";
+    echo "<form action='Wadhwani_1_4.php' method='post'>
+    Please enter the degrees between 0 and 90 <br>";
     if (isset($_POST['sign']))
     {
         echo "<select name = 'sign'>";
