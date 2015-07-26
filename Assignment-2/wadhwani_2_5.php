@@ -6,8 +6,14 @@
  * Time: 11:26 PM
  */
 
-include('connect.php');
+DEFINE ('DB_USER', 'root');
+DEFINE ('DB_PASSWORD', '');
+DEFINE ('DB_HOST', 'localhost');
+DEFINE ('DB_NAME', 'movies_db_733_747');
 
+$dbc = @mysqli_connect (DB_HOST, DB_USER, DB_PASSWORD,
+    DB_NAME) OR die ('Could not connect to MySQL: ' .
+    mysqli_connect_error() );
 
 if (isset($_POST['actor']) and isset($_POST['director']))
 {
