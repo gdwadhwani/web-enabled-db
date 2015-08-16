@@ -19,7 +19,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="view_os.php">View All Operating Systems</a> (You can Edit or Delete Operating Systems through this view, as well.)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="add_os.php">Add an Operating System</a><br/>
 
-<h3>Actors/Actresses</h3>
+<h3>Product Subtype</h3>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="view_product_subtype.php">View All Product Subtypes</a> (You can Edit or Delete actors/actresses through this view, as well.)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="add_product_subtype.php">Add a Product Subtype</a><br/>
 
