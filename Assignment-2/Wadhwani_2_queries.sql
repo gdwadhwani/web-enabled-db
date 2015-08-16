@@ -4,7 +4,7 @@ Select concat(b.d_first_name, ' ', b.d_last_name) as "Director", concat(a.a_firs
 FROM actors_actresses as a, directors as b, movies as c, directorship as d, roles as e
 WHERE e.movie_id = d.movie_id And e.act_id = a.act_id AND d.director_id = b.director_id AND e.movie_id = c.movie_id AND d.movie_id = c.movie_id
 Group By e.act_id, d.director_id
-ORDER By count(*) desc, b.d_last_name, a.a_last_name
+ORDER By count(*) desc, b.d_last_name, a.a_last_name;
 
 2) Question 2
 Select concat(b.d_first_name, ' ', b.d_last_name) as "Director", concat(a.a_first_name, ' ', a.a_last_name) as "Actors/Actress", count(*) as "No of Movies", min(c.year) as "From Year", max(c.year) as "To Year"
