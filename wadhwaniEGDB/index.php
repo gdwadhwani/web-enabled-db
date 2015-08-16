@@ -20,8 +20,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="add_os.php">Add an Operating System</a><br/>
 
 <h3>Actors/Actresses</h3>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="view_product_subtype.php">View All Actors/Actresses</a> (You can Edit or Delete actors/actresses through this view, as well.)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="add_product_subtype.php">Add a Actor/Actress</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="view_product_subtype.php">View All Product Subtypes</a> (You can Edit or Delete actors/actresses through this view, as well.)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="add_product_subtype.php">Add a Product Subtype</a><br/>
 
 </body>
 
