@@ -9,7 +9,7 @@
 $page_title = 'View Products';
 
 // Page header.
-echo '<h1 id="mainhead">products currently in the Database:</h1>';
+echo '<h1 id="mainhead">Products currently in the Database:</h1>';
 
 include ('connect.php');
 
@@ -140,7 +140,7 @@ while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 		<td align="left">' . $row['p_price'] . '</td>
 		<td align="left">' . $row['m_name'] . '</td>
 		<td align="left">' . $row['s_name'] . '</td>
-		<td align="left"><a href="view_details.php?id=' . $row['idProducts'] . '">View Details</a></td>
+		<td align="left"><a href="product_details.php?id=' . $row['idProducts'] . '">View Details</a></td>
 
 	</tr>
 	';
