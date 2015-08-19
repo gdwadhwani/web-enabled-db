@@ -69,8 +69,7 @@ if (isset($_POST['submitted'])) {
 <h2>Add Product Subtype</h2>
 <form action="add_product_subtype.php" method="post">
     <p>Sub Type Name: <input type="text" name="st_name" size="15" maxlength="15" value="<?php if (isset($_POST['st_name'])) echo $_POST['st_name']; ?>" /></p>
-    <p>Product Type:
-    <select name = 'type'>
+    <p>Product Type: <select name = 'type'>
     <?php
     include ('connect.php');
     $query = "select idProduct_Type, p_type from product_type";
