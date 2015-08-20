@@ -40,13 +40,21 @@ if (isset($_POST['submitted'])) {
 
             echo "<table>
 		<tr><td>Sub Type Name:</td><td>{$st_name}</td></tr>";
+            echo '<p>
+                    <a href="index.php">Home Page</a>
+                    <a href="add_product.php">Add Product</a>
+                  </p>';
 
             exit();
 
         } else { // If it did not run OK.
             echo '<h1 id="mainhead">System Error</h1>
 			<p class="error">The genre could not be added due to a system error. We apologize for any inconvenience.</p>'; // Public message.
-            echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>'; // Debugging message.
+            echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>';
+            echo '<p>
+                    <a href="index.php">Home Page</a>
+                    <a href="add_product.php">Add Product</a>
+                  </p>';// Debugging message.
             exit();
         }
 
@@ -95,4 +103,8 @@ if (isset($_POST['submitted'])) {
     </p>
     <p><input type="submit" name="submit" value="Add SubType" /></p>
     <input type="hidden" name="submitted" value="TRUE" />
+    <p>
+        <a href="index.php">Home Page</a>
+        <a href="view_products.php">View All Products</a>
+    </p>
 </form>

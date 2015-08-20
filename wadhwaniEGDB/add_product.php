@@ -92,11 +92,20 @@ if (isset($_POST['submitted'])) {
 		        <tr><td>Manufacturer</td><td>{$manufacturerid}</td></tr>
 		        <tr><td>Release Date</td><td>{$releasedate}</td></tr>
 		        </table>";
+                echo '<p>
+                    <a href="index.php">Home Page</a>
+                    <a href="add_product.php">Add Product</a>
+                    </p>';
+
                 exit();
             } else {
                 echo '<h1 id="mainhead">System Error</h1>
 			    <p class="error">The OS could not be added due to a system error. We apologize for any inconvenience.</p>'; // Public message.
                 echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>'; // Debugging message.
+                echo '<p>
+                    <a href="index.php">Home Page</a>
+                    <a href="add_product.php">Add Product</a>
+                    </p>';
                 exit();
             }
 
@@ -104,6 +113,10 @@ if (isset($_POST['submitted'])) {
             echo '<h1 id="mainhead">System Error</h1>
 			<p class="error">The Product could not be added due to a system error. We apologize for any inconvenience.</p>'; // Public message.
             echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>'; // Debugging message.
+            echo '<p>
+                <a href="index.php">Home Page</a>
+                <a href="add_product.php">Add Product</a>
+                </p>';
             exit();
         }
 

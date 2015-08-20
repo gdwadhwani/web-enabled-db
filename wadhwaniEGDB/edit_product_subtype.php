@@ -14,7 +14,10 @@ if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) { // Accessed through v
     $id = $_POST['id'];
 } else { // No valid ID, kill the script.
     echo '<h1 id="mainhead">Page Error</h1>
-	<p class="error">This page has been accessed in error.</p><p><br /><br /></p>';
+	<p class="error">This page has been accessed in error.</p><p><br /><br /></p><p>
+        <a href="index.php">Home Page</a>
+        <a href="view_products.php">View All Products</a>
+    </p>';
     exit();
 }
 
@@ -51,12 +54,18 @@ if (isset($_POST['submitted'])) {
 
             // Print a message.
             echo '<h1 id="mainhead">Edit a Product SubType</h1>
-				<p>The Product SubType record has been edited.</p><p><br /><br /></p>';
+				<p>The Product SubType record has been edited.</p><p><br /><br /></p><p>
+        <a href="index.php">Home Page</a>
+        <a href="view_products.php">View All Products</a>
+    </p>';
 
         } else { // If it did not run OK.
             echo '<h1 id="mainhead">System Error</h1>
 				<p class="error">The Product Subtype could not be edited due to a system error. We apologize for any inconvenience.</p>'; // Public message.
-            echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>'; // Debugging message.
+            echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p><p>
+        <a href="index.php">Home Page</a>
+        <a href="view_products.php">View All Products</a>
+    </p>';// Debugging message.
             exit();
         }
 
@@ -125,7 +134,11 @@ if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the form.
 
 } else { // Not a valid movie ID.
     echo '<h1 id="mainhead">Page Error</h1>
-	<p class="error">This page has been accessed in error. Not a valid movie ID.</p><p><br /><br /></p>';
+	<p class="error">This page has been accessed in error. Not a valid movie ID.</p><p><br /><br /></p>
+	<p>
+        <a href="index.php">Home Page</a>
+        <a href="view_products.php">View All Products</a>
+    </p>';
 }
 mysqli_close($dbc); // Close the database connection.
 

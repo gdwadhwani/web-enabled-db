@@ -17,6 +17,10 @@ if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) { // Accessed through v
 } else { // No valid ID, kill the script.
     echo '<h1 id="mainhead">Page Error</h1>
 	<p class="error">This page has been accessed in error.</p><p><br /><br /></p>';
+    echo '<p>
+    <a href="index.php">Home Page</a>
+    <a href="view_products.php">View All Products</a>
+</p>';
     exit();
 }
 include ('connect.php');
@@ -191,7 +195,10 @@ if ($num_pages > 1) {
     echo '</p>';
 
 } // End of links section.
-
+echo '<p>
+    <a href="index.php">Home Page</a>
+    <a href="view_products.php">View All Products</a>
+</p>';
 ?>
 
 

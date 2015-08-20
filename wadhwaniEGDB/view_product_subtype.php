@@ -148,7 +148,10 @@ if ($num_pages > 1) {
     echo '</p>';
 
 } // End of links section.
-
+echo '<p>
+    <a href="index.php">Home Page</a>
+    <a href="add_product.php">Add Product</a>
+    </p>';
 ?>
 
 
