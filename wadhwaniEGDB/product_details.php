@@ -15,6 +15,10 @@ if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) { // Accessed through v
 } else { // No valid ID, kill the script.
     echo '<h1 id="mainhead">Page Error</h1>
 	<p class="error">This page has been accessed in error.</p><p><br /><br /></p>';
+    echo '<p>
+        <a href="index.php">Home Page</a>
+        <a href="view_products.php">View All Products</a>
+    </p>';
     exit();
 }
 
@@ -83,14 +87,29 @@ if (mysqli_num_rows($result) == 1) {
 <p>Product Type: <b>' . $pt_name . '</b> </p>
 <p>Product Subtype: <b>' . $ps_name . '</b></p>
 <p>Operating Systems: <b>';
+    $num = 0;
     foreach($osname as $osoutput) {
-        echo $osoutput . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+        if($osoutput == "No Operating System Defined") {
+            echo $osoutput . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+        } else {
+            echo ($num+1). ")". $osoutput . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $num++;
+        }
+
     }
 echo '</b></p>';
+echo '<p>
+    <a href="index.php">Home Page</a>
+    <a href="view_products.php">View All Products</a>
+</p>';
 
 } else { // Not a valid movie ID.
     echo '<h1 id="mainhead">Page Error</h1>
 	<p class="error">This page has been accessed in error. Not a valid Product ID.</p><p><br /><br /></p>';
+echo '<p>
+    <a href="index.php">Home Page</a>
+    <a href="view_products.php">View All Products</a>
+</p>';
 }
 mysqli_close($dbc); // Close the database connection.
 

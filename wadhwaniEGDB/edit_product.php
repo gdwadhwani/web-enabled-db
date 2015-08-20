@@ -55,11 +55,27 @@ if (isset($_POST['submitted'])) {
         $subtype_id = $_POST['subtype_id'];
     }
 
+
+    if (isset($_FILES['image']) && $_FILES['image']['size'] > 0) {
+
+        //    Temporary file name stored on the server
+        echo "test";
+        $tmpName = $_FILES['image']['tmp_name'];
+        echo $tmpName;
+// Read the file
+        $fp = fopen($tmpName, 'r');
+        $data = fread($fp, filesize($tmpName));
+        $data = addslashes($data);
+        fclose($fp);
+    } else {
+        $data = '';
+    }
+
     if (empty($errors)) { // If everything's OK.
 
         $releasedate = $_POST['releasedate'];
         // Make the query.
-        $query = "UPDATE products SET p_name='$pname', p_releasedate='$releasedate', p_price=$price, idManufacturer=$manufacturer_id, idProduct_Subtype=$subtype_id WHERE idProducts = $id";
+        $query = "UPDATE products SET p_name='$pname', p_releasedate='$releasedate', p_price='$price', idManufacturer='$manufacturer_id', idProduct_Subtype='$subtype_id', p_image = '$data' WHERE idProducts = $id";
         $result = @mysqli_query ($dbc, $query); // Run the query.
         if ((mysqli_affected_rows($dbc) == 1) || (mysqli_affected_rows($dbc) == 0)) { // If it ran OK.
 
@@ -106,7 +122,7 @@ if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the form.
 
     echo '<h2>Edit a Movie</h2>
 
-<form action="edit_product.php" method="post">';
+<form enctype="multipart/form-data" action="edit_product.php" method="post">';
 
     $query = "SELECT p_name, p_releasedate, p_price FROM products WHERE idProducts = $id ";
     $result = @mysqli_query ($dbc, $query); // Run the query.
@@ -154,9 +170,16 @@ if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the form.
     echo '</select> </p>';
 
 
+echo '<p><input name="image" accept="image/jpeg" type="file"></p>';
+
 echo '<input type="hidden" name="submitted" value="TRUE" />
 <input type="hidden" name="id" value="' . $id . '" />
 <p><input type="submit" name="submit" value="Submit" /></p>
+<p>
+        <a href="index.php">Home Page</a>
+        <a href="view_products.php">View All Products</a>
+</p>
+
 </form>
 ';
 

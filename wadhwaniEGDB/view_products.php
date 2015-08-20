@@ -141,6 +141,7 @@ while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 		<td align="left">' . $row['m_name'] . '</td>
 		<td align="left">' . $row['s_name'] . '</td>
 		<td align="left"><a href="product_details.php?id=' . $row['idProducts'] . '">View Details</a></td>
+		<td align="left"><a href="product_images.php?id=' . $row['idProducts'] . '" target="_blank">View Image</a></td>
 
 	</tr>
 	';
@@ -182,6 +183,10 @@ if ($num_pages > 1) {
 
     echo '</p>';
 
+    echo '<p>
+    <a href="index.php">Home Page</a>
+    <a href="add_product.php">Add Product</a>
+    </p>';
 } // End of links section.
 
 ?>

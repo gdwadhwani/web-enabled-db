@@ -51,12 +51,27 @@ if (isset($_POST['submitted'])) {
         $os = $_POST['os'];
     }
 
+    if (isset($_FILES['image']) && $_FILES['image']['size'] > 0) {
+
+        //    Temporary file name stored on the server
+        echo "test";
+        $tmpName = $_FILES['image']['tmp_name'];
+        echo $tmpName;
+// Read the file
+        $fp = fopen($tmpName, 'r');
+        $data = fread($fp, filesize($tmpName));
+        $data = addslashes($data);
+        fclose($fp);
+    } else {
+        $data = '';
+    }
+
     if (empty($errors)) { // If everything's okay.
 
         // Add the movie to the database.
         $releasedate = $_POST['releasedate'];
         // Make the query.
-        $query = "INSERT INTO products (p_name, p_releasedate, p_price, idManufacturer, idProduct_Subtype) VALUES ('$pname', '$releasedate', '$price', '$manufacturerid', $pst )";
+        $query = "INSERT INTO products (p_name, p_releasedate, p_price, idManufacturer, idProduct_Subtype, p_image) VALUES ('$pname', '$releasedate', '$price', '$manufacturerid', '$pst' , '$data')";
         $result = @mysqli_query ($dbc, $query); // Run the query.
         if ($result) { // If it ran OK.
             $product_id = mysqli_insert_id($dbc); // Retrieve the id number of the newly added record
@@ -125,10 +140,10 @@ if (isset($_POST['os'])) {
 }
 ?>
 <h2>Add Product</h2>
-<form action="add_product.php" method="post">
+<form action="add_product.php" method="post" enctype="multipart/form-data">
     <p>Product Name: <input type="text" name="pname" size="35" maxlength="35" value="<?php if (isset($_POST['pname'])) echo $_POST['pname']; ?>" /></p>
     <p>Price: <input type="text" name="price" size="10" maxlength="10" value="<?php if (isset($_POST['price'])) echo $_POST['price']; ?>"  /> </p>
-    <p>Release Date <input type="date" name="releasedate" value="<?php if (isset($_POST['releasedate'])) echo $_POST['releasedate']; ?>"  /> </p>
+    <p>Release Date: <input type="date" name="releasedate" value="<?php if (isset($_POST['releasedate'])) echo $_POST['releasedate']; ?>"  /> </p>
     <p>Product Subtype: <select name="pst">
             <?php
             if (isset($_POST['pst'])){
@@ -187,7 +202,13 @@ if (isset($_POST['os'])) {
             ?>
         </select>&nbsp;&nbsp;&nbsp;<a href="add_os.php">Add a new Operating System</a>
     </p>
-
+    <p><input name="image" accept="image/jpeg" type="file"></p>
     <p><input type="submit" name="submit" value="Add Product" /></p>
     <input type="hidden" name="submitted" value="TRUE" />
+
+  <p>
+        <a href="index.php">Home Page</a>
+        <a href="view_products.php">View All Products</a>
+  </p>
+
 </form>

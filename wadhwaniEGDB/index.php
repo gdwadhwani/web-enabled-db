@@ -13,6 +13,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="add_product.php">Add a Product</a><br/>
 
 <h3>Manufacturer</h3>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="view_manufacturer.php">View all Manufacturers</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="add_manufacturer.php">Add a Manufacturer</a><br/>
 
 <h3>Operating System</h3>
