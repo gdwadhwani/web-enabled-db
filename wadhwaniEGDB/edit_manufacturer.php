@@ -64,7 +64,7 @@ if (isset($_POST['submitted'])) {
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>
 </p>';
-
+        exit();
         } else { // If it did not run OK.
             echo '<h1 id="mainhead">System Error</h1>
 				<p class="error">The OS could not be edited due to a system error. We apologize for any inconvenience.</p>'; // Public message.
@@ -110,13 +110,36 @@ if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the form.
 <form action="edit_manufacturer.php" method="post">';
 
     echo '
-<p>Manufacturer Name:<input type="text" name="mname" size="20" maxlength="40" value="' . $row[0] . '"  /> </p>
-<p>Manufacturer City: <input type="text" name="mcity" size="20" maxlength="40" value="' . $row[1] . '"  /> </p>
-<p>Manufacturer State: <input type="text" name="mstate" size="20" maxlength="40" value="' . $row[2] . '"  /> </p>
-<p>Manufacturer Country: <input type="text" name="mcountry" size="20" maxlength="40" value="' . $row[3] . '"  /> </p>';
+<p>Manufacturer Name:<input type="text" name="mname" size="20" maxlength="40" value=';
+    if(isset($_POST['mname'])) {
+        echo "'$_POST[mname]'";
+    } else {
+        echo "'$row[0]'";
+    }
+    echo '/> </p>';
 
-
-    echo '<input type="hidden" name="submitted" value="TRUE" />
+echo '<p>Manufacturer City: <input type="text" name="mcity" size="20" maxlength="40" value=';
+    if(isset($_POST['mcity'])) {
+        echo "'$_POST[mcity]'";
+    } else {
+        echo "'$row[1]'";
+    }
+    echo '/> </p>';
+echo '<p>Manufacturer State: <input type="text" name="mstate" size="20" maxlength="40" value=';
+    if(isset($_POST['mstate'])) {
+        echo "'$_POST[mstate]'";
+    } else {
+        echo "'$row[2]'";
+    }
+    echo '/> </p>';
+echo '<p>Manufacturer Country: <input type="text" name="mcountry" size="20" maxlength="40" value=';
+    if(isset($_POST['mcountry'])) {
+        echo "'$_POST[mcountry]'";
+    } else {
+        echo "'$row[3]'";
+    }
+    echo '/> </p>';
+echo '<input type="hidden" name="submitted" value="TRUE" />
 <input type="hidden" name="id" value="' . $id . '" />
 <p><input type="submit" name="submit" value="Submit" /></p>
 <p>

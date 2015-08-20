@@ -150,7 +150,7 @@ if ($num_pages > 1) {
 } // End of links section.
 echo '<p>
     <a href="index.php">Home Page</a>
-    <a href="add_product.php">Add Product</a>
+    <a href="add_product_subtype.php">Add Product SubType</a>
     </p>';
 ?>
 

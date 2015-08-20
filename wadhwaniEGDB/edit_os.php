@@ -64,6 +64,7 @@ if (isset($_POST['submitted'])) {
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>
 </p>';
+            exit();
 
         } else { // If it did not run OK.
             echo '<h1 id="mainhead">System Error</h1>
@@ -112,22 +113,50 @@ if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the form.
     #$result = @mysqli_query ($dbc, $query); // Run the query.
     #$row = mysqli_fetch_array ($result, MYSQL_NUM);
     echo '
-<p>Name: <input type="text" name="oname" size="20" maxlength="40" value="' . $row[0] . '"  /> </p>
-<p>Latest Version: <input type="text" name="version" size="20" maxlength="40" value="' . $row[1] . '"  /> </p>
-<p>Release Date: <input type="date" name="releasedate" size="20" maxlength="40" value="' . $row[2] . '"  /> </p>';
-
+<p>Name: <input type="text" name="oname" size="20" maxlength="40" value=';
+    if(isset($_POST['oname'])) {
+        echo "'$_POST[oname]'";
+    } else {
+        echo "'$row[0]'";
+    }
+    echo '/> </p>';
+echo '<p>Latest Version: <input type="text" name="version" size="20" maxlength="40" value=';
+    if(isset($_POST['version'])) {
+        echo "'$_POST[version]'";
+    } else {
+        echo "'$row[1]'";
+    }
+    echo '/> </p>';
+echo '<p>Release Date: <input type="date" name="releasedate" size="20" maxlength="40" value=';
+    if(isset($_POST['releasedate'])) {
+        echo "'$_POST[releasedate]'";
+    } else {
+        echo "'$row[2]'";
+    }
+    echo '/> </p>';
 
 // Build the query for director drop-down
     echo '<p>OS Type: <select name="price">';
-    print $row[3];
-    if ($row[3] == 1) {
-        echo  '<option value="1" selected = "selected" > FREE </option>';
-        echo  '<option value="0"> PAID </option>';
+    if(isset($_POST['price'])) {
+        if ($_POST['price'] == 1) {
+            echo  '<option value="1" selected = "selected" > FREE </option>';
+            echo  '<option value="0"> PAID </option>';
+        }
+        else{
+            echo '<option value="0" selected = "selected" > PAID </option>';
+            echo '<option value="1"> FREE </option>';
+        }
+    } else{
+        if ($row[3] == 1) {
+            echo  '<option value="1" selected = "selected" > FREE </option>';
+            echo  '<option value="0"> PAID </option>';
+        }
+        else{
+            echo '<option value="0" selected = "selected" > PAID </option>';
+            echo '<option value="1"> FREE </option>';
+        }
     }
-    else{
-        echo '<option value="0" selected = "selected" > PAID </option>';
-        echo '<option value="1"> FREE </option>';
-    }
+
     echo '</select> </p>';
 
     echo '<input type="hidden" name="submitted" value="TRUE" />

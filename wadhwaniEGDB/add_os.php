@@ -50,10 +50,10 @@ if (isset($_POST['submitted'])) {
 		<p>You have added to the OS table:</p>';
 
             echo "<table>
-		<tr><td>OS Name:</td><td>{$os_name}</td></tr>";
+		<tr><td>OS Name:</td><td>{$os_name}</td></tr></table>";
             echo '<p>
                     <a href="index.php">Home Page</a>
-                    <a href="add_product.php">Add Product</a>
+                    <a href="view_products.php">View All Products</a>
                   </p>';
 
             exit();
@@ -64,7 +64,7 @@ if (isset($_POST['submitted'])) {
             echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>'; // Debugging message.
             echo '<p>
                     <a href="index.php">Home Page</a>
-                    <a href="add_product.php">Add Product</a>
+                    <a href="add_os.php">Add Operating System</a>
                     </p>';
             exit();
         }

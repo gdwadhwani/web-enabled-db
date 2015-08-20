@@ -39,10 +39,10 @@ if (isset($_POST['submitted'])) {
 		<p>You have added to the Product SubType table:</p>';
 
             echo "<table>
-		<tr><td>Sub Type Name:</td><td>{$st_name}</td></tr>";
+		<tr><td>Sub Type Name:</td><td>{$st_name}</td></tr></table>";
             echo '<p>
                     <a href="index.php">Home Page</a>
-                    <a href="add_product.php">Add Product</a>
+                    <a href="view_products.php">View All Products</a>
                   </p>';
 
             exit();
@@ -53,7 +53,7 @@ if (isset($_POST['submitted'])) {
             echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>';
             echo '<p>
                     <a href="index.php">Home Page</a>
-                    <a href="add_product.php">Add Product</a>
+                    <a href="add_product_subtype.php">Add Product Subtype</a>
                   </p>';// Debugging message.
             exit();
         }

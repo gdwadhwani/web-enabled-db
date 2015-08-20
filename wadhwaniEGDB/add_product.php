@@ -94,7 +94,7 @@ if (isset($_POST['submitted'])) {
 		        </table>";
                 echo '<p>
                     <a href="index.php">Home Page</a>
-                    <a href="add_product.php">Add Product</a>
+                    <a href="view_products.php">View All Product</a>
                     </p>';
 
                 exit();

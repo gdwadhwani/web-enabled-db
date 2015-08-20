@@ -52,13 +52,11 @@ if (isset($_POST['submitted'])) {
         $manufacturer_id = $_POST['manufacturer_id'];
     }
 
-    // Check for year.
     if (empty($_POST['subtype_id'])) {
         $errors[] = 'You forgot to enter the SubType for the Product.';
     } else {
         $subtype_id = $_POST['subtype_id'];
     }
-
 
     if (isset($_FILES['image']) && $_FILES['image']['size'] > 0) {
 
@@ -74,10 +72,13 @@ if (isset($_POST['submitted'])) {
     } else {
         $data = '';
     }
-
+    if (isset($_POST['releasedate'])){
+        $releasedate = $_POST['releasedate'];
+    } else {
+        $releasedate = NULL;
+    }
     if (empty($errors)) { // If everything's OK.
 
-        $releasedate = $_POST['releasedate'];
         // Make the query.
         $query = "UPDATE products SET p_name='$pname', p_releasedate='$releasedate', p_price='$price', idManufacturer='$manufacturer_id', idProduct_Subtype='$subtype_id', p_image = '$data' WHERE idProducts = $id";
         $result = @mysqli_query ($dbc, $query); // Run the query.
@@ -90,6 +91,7 @@ if (isset($_POST['submitted'])) {
                 <a href="index.php">Home Page</a>
                 <a href="view_products.php">View All Products</a>
                 </p>';
+            exit();
 
         } else { // If it did not run OK.
             echo '<h1 id="mainhead">System Error</h1>
@@ -123,16 +125,15 @@ if (isset($_POST['submitted'])) {
 $query = "select p.p_name, p.p_releasedate, p.p_price, p.idManufacturer, p.idProduct_Subtype, m.m_name, ps.s_name from products as p, manufacturer as m, product_subtype as ps where p.idManufacturer = m.idManufacturer AND p.idProduct_Subtype = ps.idProduct_Subtype AND p.idProducts = $id ";
 $result = @mysqli_query ($dbc, $query); // Run the query.
 
-if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the form.
+if (mysqli_num_rows($result) == 1) {
 
-    // Get the movie's information.
     $row = mysqli_fetch_array ($result, MYSQL_NUM);
     $this_manufacturer_id=$row[3];
     $this_subtype_id=$row[4];
     // Create the form.
 
 
-    echo '<h2>Edit a Movie</h2>
+    echo '<h2>Edit a Product</h2>
 
 <form enctype="multipart/form-data" action="edit_product.php" method="post">';
 
@@ -140,26 +141,62 @@ if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the form.
     $result = @mysqli_query ($dbc, $query); // Run the query.
     $row = mysqli_fetch_array ($result, MYSQL_NUM);
     echo '
-<p>Name: <input type="text" name="pname" size="20" maxlength="40" value="' . $row[0] . '"  /> </p>
-<p>Release Date: <input type="date" name="releasedate" size="20" maxlength="40" value="' . $row[1] . '"  /> </p>
-<p>Price: <input type="text" name="price" size="20" maxlength="40" value="' . $row[2] . '"  /> </p>';
+<p>Product Name: <input type="text" name="pname" size="35" maxlength="35" value=';
+    if(isset($_POST['pname'])) {
+        echo "'$_POST[pname]'";
+    } else {
+        echo "'$row[0]'";
+    }
+    echo '/> </p>';
+
+echo '<p>Release Date: <input type="date" name="releasedate" value=';
+    if(isset($_POST['releasedate'])) {
+        echo "'$_POST[releasedate]'";
+    } else {
+        echo "'$row[1]'";
+    }
+    echo '/> </p>';
+
+echo '<p>Price: <input type="text" name="price" size="10" maxlength="10" value=';
+    if(isset($_POST['price'])) {
+        echo "'$_POST[price]'";
+    } else {
+        echo "'$row[2]'";
+    }
+    echo '/> </p>';
 
 // Build the query for director drop-down
     echo '<p>Manufacturer: <select name="manufacturer_id">';
     $query = "SELECT idManufacturer, m_name FROM manufacturer";
     $result = @mysqli_query ($dbc, $query);
 
-    while ($row = mysqli_fetch_array($result, MYSQL_ASSOC))
-    {
-        if ($row['idManufacturer'] == $this_manufacturer_id)
+    if (isset($_POST['manufacturer_id'])){
+        while ($row = mysqli_fetch_array($result, MYSQL_ASSOC))
         {
-            echo '<option value="'.$row['idManufacturer'].'" selected="selected">' . 	$row['m_name'] .  '</option>';
+            if ($row['idManufacturer'] == $_POST['manufacturer_id'])
+            {
+                echo '<option value="'.$row['idManufacturer'].'" selected="selected">' . 	$row['m_name'] .  '</option>';
+            }
+            else
+            {
+                echo '<option value="'.$row['idManufacturer'].'">'. $row['m_name'] . '</option>';
+            }
         }
-        else
+
+    } else {
+        while ($row = mysqli_fetch_array($result, MYSQL_ASSOC))
         {
-            echo '<option value="'.$row['idManufacturer'].'">'. $row['m_name'] . '</option>';
+            if ($row['idManufacturer'] == $this_manufacturer_id)
+            {
+                echo '<option value="'.$row['idManufacturer'].'" selected="selected">' . 	$row['m_name'] .  '</option>';
+            }
+            else
+            {
+                echo '<option value="'.$row['idManufacturer'].'">'. $row['m_name'] . '</option>';
+            }
         }
     }
+
     echo '</select> </p>';
 
     echo '<p>Product SubType: <select name="subtype_id">';
@@ -167,18 +204,32 @@ if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the form.
     // Build the query for genre drop-down
     $query = "SELECT idProduct_Subtype, s_name FROM product_subtype";
     $result = @mysqli_query ($dbc, $query);
-
-    while ($row = mysqli_fetch_array($result, MYSQL_ASSOC))
-    {
-        if ($row['idProduct_Subtype'] == $this_subtype_id)
+    if (isset($_POST['manufacturer_id'])){
+        while ($row = mysqli_fetch_array($result, MYSQL_ASSOC))
         {
-            echo '<option value="'.$row['idProduct_Subtype'].'" 	selected="selected">'.$row['s_name'].'</option>';
+            if ($row['idProduct_Subtype'] == $_POST['subtype_id'])
+            {
+                echo '<option value="'.$row['idProduct_Subtype'].'" 	selected="selected">'.$row['s_name'].'</option>';
+            }
+            else
+            {
+                echo '<option 	value="'.$row['idProduct_Subtype'].'">'.$row['s_name'].'</option>';
+            }
         }
-        else
+    } else {
+        while ($row = mysqli_fetch_array($result, MYSQL_ASSOC))
         {
-            echo '<option 	value="'.$row['idProduct_Subtype'].'">'.$row['s_name'].'</option>';
+            if ($row['idProduct_Subtype'] == $this_subtype_id)
+            {
+                echo '<option value="'.$row['idProduct_Subtype'].'" 	selected="selected">'.$row['s_name'].'</option>';
+            }
+            else
+            {
+                echo '<option 	value="'.$row['idProduct_Subtype'].'">'.$row['s_name'].'</option>';
+            }
         }
     }
+
     echo '</select> </p>';
 
 

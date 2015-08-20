@@ -58,6 +58,7 @@ if (isset($_POST['submitted'])) {
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>
     </p>';
+            exit();
 
         } else { // If it did not run OK.
             echo '<h1 id="mainhead">System Error</h1>
@@ -106,24 +107,44 @@ if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the form.
 //    $result = @mysqli_query ($dbc, $query); // Run the query.
 //    $row = mysqli_fetch_array ($result, MYSQL_NUM);
     echo '
-<p>Product SubType: <input type="text" name="pst" size="20" maxlength="40" value="' . $row[0] . '"  /> </p>';
+<p>Product SubType: <input type="text" name="pst" size="20" maxlength="40" value=';
+    if(isset($_POST['pst'])) {
+        echo "'$_POST[pst]'";
+    } else {
+        echo "'$row[0]'";
+    }
+    echo '/> </p>';
 
 // Build the query for director drop-down
     echo '<p>Product Type: <select name="pt">';
     $query = "SELECT idProduct_Type, p_type FROM product_type";
     $result = @mysqli_query ($dbc, $query);
-
-    while ($row = mysqli_fetch_array($result, MYSQL_ASSOC))
-    {
-        if ($row['idProduct_Type'] == $this_type_id)
+    if (isset($_POST['pt'])){
+        while ($row = mysqli_fetch_array($result, MYSQL_ASSOC))
         {
-            echo '<option value="'.$row['idProduct_Type'].'" selected="selected">' . 	$row['p_type'] .  '</option>';
+            if ($row['idProduct_Type'] == $_POST['pt'])
+            {
+                echo '<option value="'.$row['idProduct_Type'].'" selected="selected">' . 	$row['p_type'] .  '</option>';
+            }
+            else
+            {
+                echo '<option value="'.$row['idProduct_Type'].'">'. $row['p_type'] . '</option>';
+            }
         }
-        else
+    } else {
+        while ($row = mysqli_fetch_array($result, MYSQL_ASSOC))
         {
-            echo '<option value="'.$row['idProduct_Type'].'">'. $row['p_type'] . '</option>';
+            if ($row['idProduct_Type'] == $this_type_id)
+            {
+                echo '<option value="'.$row['idProduct_Type'].'" selected="selected">' . 	$row['p_type'] .  '</option>';
+            }
+            else
+            {
+                echo '<option value="'.$row['idProduct_Type'].'">'. $row['p_type'] . '</option>';
+            }
         }
     }
+
     echo '</select> </p>';
 
     echo '<input type="hidden" name="submitted" value="TRUE" />
