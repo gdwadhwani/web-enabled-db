@@ -15,7 +15,7 @@ if($imageData['p_image'] != NULL){
     echo $imageData['p_image'];
 }
 else {
-     echo '<h1 id="mainhead">No Images to Display</h1>';
+    echo '<img src="no-image-available.png" />';
 }
 ?>
 
