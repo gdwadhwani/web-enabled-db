@@ -58,10 +58,7 @@ if (mysqli_num_rows($result) == 1) {
         while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)){
             array_push($os, $row['idOperating_System']);
         }
-    } else {
-        $noos = "NO OS";
     }
-
     if (!empty($os)) {
         $osname = [];
         foreach($os as $osid){
@@ -98,18 +95,63 @@ if (mysqli_num_rows($result) == 1) {
 
     }
 echo '</b></p>';
-echo '<p>
+    if (!empty($os)) {
+        echo '<div style="float: left;"><table align="left" cellspacing="0" cellpadding="5" border="True" style="display: block">
+<tr>
+	<td align="left"><b>Edit</b></td>
+	<td align="left"><b>Delete</b></td>
+	<td align="left"><b>Operating System </b></td>
+	<td align="left"><b>Latest Version</b></td>
+	<td align="left"><b>Release Date</b></td>
+	<td align="left"><b>Price(Free/Paid)</b></td>
+	<td align="left"><b>Product Using OS</b></td>
+</tr>';
+        $bg = '#eeeeee';
+        foreach($osname as $osoutput) {
+
+            $query = "select idOperating_System, o_latestversion, o_releasedate, o_free from operating_system WHERE o_name = '$osoutput'";
+            $result = @mysqli_query ($dbc, $query); // Run the query.
+            $row = mysqli_fetch_array($result, MYSQL_ASSOC);
+            $bg = ($bg=='#eeeeee' ? '#ffffff' : '#eeeeee'); // Switch the background color.
+            echo '<tr bgcolor="' . $bg . '">
+		<td align="left"><a href="edit_os.php?id=' . $row['idOperating_System'] . '">Edit</a></td>
+		<td align="left"><a href="delete_os.php?idos=' . $row['idOperating_System'] . '&id=' . $id .'">Delete OS - This Product</a></td>
+		<td align="left">' . $osoutput . '</td>
+		<td align="left">' . $row['o_latestversion'] . '</td>
+		<td align="left">' . $row['o_releasedate'] . '</td>';
+            if($row['o_free'] == 0) {
+                echo '<td align="left"> PAID </td>';
+            }
+            else {
+                echo '<td align="left"> FREE </td>';
+            }
+            echo '
+		<td align="left"><a href="product_os.php?id=' . $row['idOperating_System'] . '">View Products - OS</a></td>
+
+	</tr>
+	';
+        }
+        echo '</table>
+            <p>
+            </br>
+            <a href="index.php">Home Page</a>
+            <a href="view_products.php">View All Products</a>
+            </p>
+        </div></br>';
+    } else{
+        echo '<p>
     <a href="index.php">Home Page</a>
     <a href="view_products.php">View All Products</a>
-</p>';
+        </p>';
+    }
 
 } else { // Not a valid movie ID.
     echo '<h1 id="mainhead">Page Error</h1>
 	<p class="error">This page has been accessed in error. Not a valid Product ID.</p><p><br /><br /></p>';
-echo '<p>
-    <a href="index.php">Home Page</a>
-    <a href="view_products.php">View All Products</a>
-</p>';
+    echo '<p>
+        <a href="index.php">Home Page</a>
+        <a href="view_products.php">View All Products</a>
+    </p>';
 }
 mysqli_close($dbc); // Close the database connection.
 

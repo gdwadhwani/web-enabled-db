@@ -96,7 +96,7 @@ $result = @mysqli_query ($dbc, $query); // Run the query.
 
 // Table header.
 echo "Ordered by $order_by";
-echo '<table align="center" cellspacing="0" cellpadding="5">
+echo '<table align="center" cellspacing="0" cellpadding="5" border="True">
 <tr>
 	<td align="left"><b>Edit</b></td>
 	<td align="left"><b><a href="' . $link1 . '">Operating System </a></b></td>

@@ -58,12 +58,16 @@ if (isset($_POST['submitted'])) {
         $subtype_id = $_POST['subtype_id'];
     }
 
+    if (empty($_POST['os'])) {
+        $errors[] = 'You forgot to enter OS of the Product. If the product has No Operating System Select "NO OS" from the multiselect';
+    } else {
+        $osupdate = $_POST['os'];
+    }
+
     if (isset($_FILES['image']) && $_FILES['image']['size'] > 0) {
 
         //    Temporary file name stored on the server
-        echo "test";
         $tmpName = $_FILES['image']['tmp_name'];
-        echo $tmpName;
 // Read the file
         $fp = fopen($tmpName, 'r');
         $data = fread($fp, filesize($tmpName));
@@ -83,7 +87,15 @@ if (isset($_POST['submitted'])) {
         $query = "UPDATE products SET p_name='$pname', p_releasedate='$releasedate', p_price='$price', idManufacturer='$manufacturer_id', idProduct_Subtype='$subtype_id', p_image = '$data' WHERE idProducts = $id";
         $result = @mysqli_query ($dbc, $query); // Run the query.
         if ((mysqli_affected_rows($dbc) == 1) || (mysqli_affected_rows($dbc) == 0)) { // If it ran OK.
-
+            $querydelete = "DELETE FROM products_has_operating_system WHERE idProducts=$id";
+            $resultdelete = @mysqli_query ($dbc, $querydelete); // Run the query.
+            echo "Hi";
+            foreach($osupdate as $osadd){
+                if($osadd != "NO OS"){
+                    $query = "INSERT INTO products_has_operating_system (idOperating_System,idProducts) VALUES ('$osadd', '$id')";
+                    $result = @mysqli_query ($dbc, $query); // Run the query.
+                }
+            }
             // Print a message.
             echo '<h1 id="mainhead">Edit a Product</h1>
 				<p>The product record has been edited.</p><p><br /><br /></p>
@@ -232,8 +244,53 @@ echo '<p>Price: <input type="text" name="price" size="10" maxlength="10" value='
 
     echo '</select> </p>';
 
+echo '<p>Operating System: <select multiple="multiple" name="os[]">';
+            $query = "SELECT idOperating_System, o_name FROM operating_system ORDER BY o_name ASC";
+            $result_os = @mysqli_query ($dbc, $query);
+            if (isset($_POST['os'])){
+                $os = $_POST['os'];
+                while ($row = mysqli_fetch_array($result_os, MYSQL_ASSOC)) {
+                    if (in_array($row['idOperating_System'], $os)) {
+                        echo '<option value="' . $row['idOperating_System'] . '" selected="selected">' . $row['o_name'] . '</option>';
+                    } else {
+                        echo '<option value="' . $row['idOperating_System'] . '">' . $row['o_name'] . '</option>';
+                    }
 
-echo '<p><input name="image" accept="image/jpeg" type="file"></p>';
+                }
+                if(in_array("NO OS",$os)){
+                    echo '<option value="NO OS" selected = "selected">NO OS</option>';
+                }
+                else {
+                    echo '<option value="NO OS">NO OS</option>';
+                }
+            }
+            else {
+                $query2 = "SELECT idOperating_System FROM products_has_operating_system WHERE idProducts = $id";
+                $result2 = @mysqli_query ($dbc, $query2);
+                $os = [];
+                while ($rowos = mysqli_fetch_array($result2, MYSQL_ASSOC)) {
+                    array_push($os, $rowos['idOperating_System']);
+                }
+                while ($row = mysqli_fetch_array($result_os, MYSQL_ASSOC)) {
+                    if (in_array($row['idOperating_System'], $os)) {
+                        echo '<option value="' . $row['idOperating_System'] . '" selected="selected">' . $row['o_name'] . '</option>';
+                    } else {
+                        echo '<option value="' . $row['idOperating_System'] . '">' . $row['o_name'] . '</option>';
+                    }
+                }
+                if(empty($os)){
+                    echo '<option value="NO OS" selected = "selected">NO OS</option>';
+                }
+                else {
+                    echo '<option value="NO OS">NO OS</option>';
+                }
+            }
+
+echo'</select>&nbsp;&nbsp;&nbsp;<a href="add_os.php">Add a new Operating System</a>
+</p>';
+
+
+echo '<p>Product Image: <input name="image" accept="image/jpeg" type="file"></p>';
 
 echo '<input type="hidden" name="submitted" value="TRUE" />
 <input type="hidden" name="id" value="' . $id . '" />

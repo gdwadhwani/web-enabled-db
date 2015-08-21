@@ -114,7 +114,7 @@ $result = @mysqli_query ($dbc, $query); // Run the query.
 
 // Table header.
 echo "Ordered by $order_by";
-echo '<table align="center" cellspacing="0" cellpadding="5">
+echo '<table align="center" cellspacing="0" cellpadding="5" border="true">
 <tr>
 	<td align="left"><b>Edit</b></td>
 	<td align="left"><b>Delete</b></td>
@@ -124,6 +124,7 @@ echo '<table align="center" cellspacing="0" cellpadding="5">
 	<td align="left"><b><a href="' . $link4 . '">Manufacturer</a></b></td>
 	<td align="left"><b><a href="' . $link5 . '">Subtype</a></b></td>
 	<td align="left"><b>Details</b></td>
+	<td align="left"><b>Images</b></td>
 </tr>
 ';
 
