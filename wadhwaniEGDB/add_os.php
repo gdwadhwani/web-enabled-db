@@ -44,47 +44,37 @@ if (isset($_POST['submitted'])) {
         $query = "INSERT INTO operating_system (o_name, o_latestversion, o_releasedate, o_free) VALUES ('$os_name', '$version', '$reldate', '$free')";
         $result = @mysqli_query ($dbc, $query); // Run the query.
         if ($result) { // If it ran OK.
-
             // Print a message.
             echo '<h1 id="mainhead">Success!</h1>
-		<p>You have added to the OS table:</p>';
-
-            echo "<table>
-		<tr><td>OS Name:</td><td>{$os_name}</td></tr></table>";
-            echo '<p>
-                    <a href="index.php">Home Page</a>
-                    <a href="view_products.php">View All Products</a>
-                  </p>';
-
-            exit();
+		          <p>You have added to the OS table:</p>';
 
         } else { // If it did not run OK.
             echo '<h1 id="mainhead">System Error</h1>
-			<p class="error">The genre could not be added due to a system error. We apologize for any inconvenience.</p>'; // Public message.
+			      <p class="error">The Operating System could not be added due to a system error. </p>';
             echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>'; // Debugging message.
             echo '<p>
                     <a href="index.php">Home Page</a>
                     <a href="add_os.php">Add Operating System</a>
-                    </p>';
+                  </p>';
             exit();
         }
 
     } else { // Report the errors.
 
         echo '<h1 id="mainhead">Error!</h1>
-		<p class="error">The following error(s) occurred:<br />';
+		      <p class="error">The following error(s) occurred:<br />';
         foreach ($errors as $msg) { // Print each error.
             echo " - $msg<br />\n";
         }
         echo '</p><p>Please try again.</p><p><br /></p>';
 
     } // End of if (empty($errors)) IF.
-
-
-    mysqli_close($dbc); // Close the database connection.
+mysqli_close($dbc); // Close the database connection.
 
 } // End of the main Submit conditional.
 ?>
+
+
 <h2>Add Operating System</h2>
 <form action="add_os.php" method="post">
     <p>OS Name: <input type="text" name="os_name" size="15" maxlength="15" value="<?php if (isset($_POST['os_name'])) echo $_POST['os_name']; ?>" /></p>

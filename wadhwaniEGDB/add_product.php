@@ -15,22 +15,19 @@ if (isset($_POST['submitted'])) {
 
     $errors = array(); // Initialize error array.
 
-    // Check for a title.
     if (empty($_POST['pname'])) {
         $errors[] = 'You forgot to enter the name of the product.';
     } else {
         $pname = $_POST['pname'];
     }
 
-    // Check for a director ID.
-    if (empty($_POST['price'])) {
-        $errors[] = 'You forgot to enter the price of the product.';
+    if (empty($_POST['price']) || !is_numeric($_POST['price'])) {
+        $errors[] = 'You forgot to enter the price of the product or it is not numeric.';
     } else {
         $price = $_POST['price'];
 
     }
 
-    // Check for length.
     if (empty($_POST['pst'])) {
         $errors[] = 'You forgot to enter the product subtype.';
     } else {
@@ -38,7 +35,6 @@ if (isset($_POST['submitted'])) {
     }
 
 
-    // Check for year.
     if (empty($_POST['manufacturerid'])) {
         $errors[] = 'You forgot to enter the Manufacturer of the Product.';
     } else {
@@ -50,28 +46,30 @@ if (isset($_POST['submitted'])) {
     } else {
         $os = $_POST['os'];
     }
-
-    if (isset($_FILES['image']) && $_FILES['image']['size'] > 0) {
+    if (isset($_FILES['image']) && $_FILES['image']['size'] > 0 && ($_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/png")) {
 
         //    Temporary file name stored on the server
-        echo "test";
         $tmpName = $_FILES['image']['tmp_name'];
-        echo $tmpName;
 // Read the file
         $fp = fopen($tmpName, 'r');
         $data = fread($fp, filesize($tmpName));
         $data = addslashes($data);
         fclose($fp);
     } else {
+        $errors[] = 'Incorrect File type for Image. Only Jpeg and Png Supported';
         $data = '';
     }
 
     if (empty($errors)) { // If everything's okay.
 
-        // Add the movie to the database.
-        $releasedate = $_POST['releasedate'];
         // Make the query.
-        $query = "INSERT INTO products (p_name, p_releasedate, p_price, idManufacturer, idProduct_Subtype, p_image) VALUES ('$pname', '$releasedate', '$price', '$manufacturerid', '$pst' , '$data')";
+        if (!empty($_POST['releasedate'])) {
+            $releasedate = $_POST['releasedate'];
+            $query = "INSERT INTO products (p_name, p_releasedate, p_price, idManufacturer, idProduct_Subtype, p_image) VALUES ('$pname', '$releasedate', '$price', '$manufacturerid', '$pst' , '$data')";
+        } else {
+            $query = "INSERT INTO products (p_name, p_price, idManufacturer, idProduct_Subtype, p_image) VALUES ('$pname', '$price', '$manufacturerid', '$pst' , '$data')";
+        }
+
         $result = @mysqli_query ($dbc, $query); // Run the query.
         if ($result) { // If it ran OK.
             $product_id = mysqli_insert_id($dbc); // Retrieve the id number of the newly added record
@@ -83,54 +81,42 @@ if (isset($_POST['submitted'])) {
             }
             if($result){
                 echo '<h1 id="mainhead">Success!</h1>
-		        <p>You have added:</p>';
+		              <p>Product Addded: <b>'.$pname.'</b></p>
+                      <p>Check the below form for the additional details</p>';
 
-                echo "<table>
-		        <tr><td>Product Name:</td><td>{$pname}</td></tr>
-		        <tr><td>Price:</td><td>{$price}</td></tr>
-		        <tr><td>Product Subtype:</td><td>{$pst}</td></tr>
-		        <tr><td>Manufacturer</td><td>{$manufacturerid}</td></tr>
-		        <tr><td>Release Date</td><td>{$releasedate}</td></tr>
-		        </table>";
-                echo '<p>
-                    <a href="index.php">Home Page</a>
-                    <a href="view_products.php">View All Product</a>
-                    </p>';
-
-                exit();
             } else {
                 echo '<h1 id="mainhead">System Error</h1>
-			    <p class="error">The OS could not be added due to a system error. We apologize for any inconvenience.</p>'; // Public message.
+			          <p class="error">The Product could not be added due to a system error.</p>';
                 echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>'; // Debugging message.
                 echo '<p>
-                    <a href="index.php">Home Page</a>
-                    <a href="add_product.php">Add Product</a>
-                    </p>';
+                      <a href="index.php">Home Page</a>
+                      <a href="add_product.php">Add Product</a>
+                      </p>';
                 exit();
             }
 
         } else { // If it did not run OK.
             echo '<h1 id="mainhead">System Error</h1>
-			<p class="error">The Product could not be added due to a system error. We apologize for any inconvenience.</p>'; // Public message.
+			      <p class="error">The Product could not be added due to a system error.</p>'; // Public message.
             echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>'; // Debugging message.
             echo '<p>
-                <a href="index.php">Home Page</a>
-                <a href="add_product.php">Add Product</a>
-                </p>';
+                  <a href="index.php">Home Page</a>
+                  <a href="add_product.php">Add Product</a>
+                  </p>';
             exit();
         }
 
     } else { // Report the errors.
 
         echo '<h1 id="mainhead">Error!</h1>
-		<p class="error">The following error(s) occurred:<br />';
+		      <p class="error">The following error(s) occurred:<br />';
         foreach ($errors as $msg) { // Print each error.
             echo " - $msg<br />\n";
         }
         echo '</p><p>Please try again.</p><p><br /></p>';
 
     } // End of if (empty($errors)) IF.
-   mysqli_close($dbc); // Close the database connection.
+mysqli_close($dbc); // Close the database connection.
 
 } // End of the main Submit conditional.
 
@@ -215,7 +201,7 @@ if (isset($_POST['os'])) {
             ?>
         </select>&nbsp;&nbsp;&nbsp;<a href="add_os.php">Add a new Operating System</a>
     </p>
-    <p><input name="image" accept="image/jpeg" type="file"></p>
+    <p>Product Image: <input name="image" accept="image/*" type="file"></p>
     <p><input type="submit" name="submit" value="Add Product" /></p>
     <input type="hidden" name="submitted" value="TRUE" />
 

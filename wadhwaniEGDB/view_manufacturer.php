@@ -6,7 +6,7 @@
  * Time: 7:45 PM
  */
 
-$page_title = 'View Operating Systems';
+$page_title = 'View Manufacturer';
 
 // Page header.
 echo '<h1 id="mainhead">Manufacturers currently in the Database:</h1>';

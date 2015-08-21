@@ -12,7 +12,7 @@ if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) { // Accessed through v
     $id = $_GET['id'];
 } elseif ( (isset($_POST['id'])) && (is_numeric($_POST['id'])) ) { // Form has been submitted.
     $id = $_POST['id'];
-} else { // No valid ID, kill the script.
+} else {
     echo '<h1 id="mainhead">Page Error</h1>
 	<p class="error">This page has been accessed in error.</p><p><br /><br /></p>
 	<p>
@@ -38,14 +38,12 @@ if (isset($_POST['submitted'])) {
         $pname = $_POST['pname'];
     }
 
-    // Check for a genre ID.
-    if (empty($_POST['price'])) {
+    if (empty($_POST['price']) || !is_numeric($_POST['price'])) {
         $errors[] = 'You forgot to enter the price of the Product.';
     } else {
         $price = $_POST['price'];
     }
 
-    // Check for length.
     if (empty($_POST['manufacturer_id'])) {
         $errors[] = 'You forgot to enter the Manufacturer Id for the Product.';
     } else {
@@ -64,7 +62,7 @@ if (isset($_POST['submitted'])) {
         $osupdate = $_POST['os'];
     }
 
-    if (isset($_FILES['image']) && $_FILES['image']['size'] > 0) {
+    if (isset($_FILES['image']) && $_FILES['image']['size'] > 0 && ($_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/png")) {
 
         //    Temporary file name stored on the server
         $tmpName = $_FILES['image']['tmp_name'];
@@ -74,22 +72,21 @@ if (isset($_POST['submitted'])) {
         $data = addslashes($data);
         fclose($fp);
     } else {
+        $errors[] = 'Incorrect File type for Image. Only Jpeg and Png Supported';
         $data = '';
-    }
-    if (isset($_POST['releasedate'])){
-        $releasedate = $_POST['releasedate'];
-    } else {
-        $releasedate = NULL;
     }
     if (empty($errors)) { // If everything's OK.
 
-        // Make the query.
-        $query = "UPDATE products SET p_name='$pname', p_releasedate='$releasedate', p_price='$price', idManufacturer='$manufacturer_id', idProduct_Subtype='$subtype_id', p_image = '$data' WHERE idProducts = $id";
+        if (!empty($_POST['releasedate'])) {
+            $releasedate = $_POST['releasedate'];
+            $query = "UPDATE products SET p_name='$pname', p_releasedate='$releasedate', p_price='$price', idManufacturer='$manufacturer_id', idProduct_Subtype='$subtype_id', p_image = '$data' WHERE idProducts = $id";
+        } else {
+            $query = "UPDATE products SET p_name='$pname', p_price='$price', idManufacturer='$manufacturer_id', idProduct_Subtype='$subtype_id', p_image = '$data' WHERE idProducts = $id";
+        }
         $result = @mysqli_query ($dbc, $query); // Run the query.
         if ((mysqli_affected_rows($dbc) == 1) || (mysqli_affected_rows($dbc) == 0)) { // If it ran OK.
             $querydelete = "DELETE FROM products_has_operating_system WHERE idProducts=$id";
             $resultdelete = @mysqli_query ($dbc, $querydelete); // Run the query.
-            echo "Hi";
             foreach($osupdate as $osadd){
                 if($osadd != "NO OS"){
                     $query = "INSERT INTO products_has_operating_system (idOperating_System,idProducts) VALUES ('$osadd', '$id')";
@@ -98,16 +95,11 @@ if (isset($_POST['submitted'])) {
             }
             // Print a message.
             echo '<h1 id="mainhead">Edit a Product</h1>
-				<p>The product record has been edited.</p><p><br /><br /></p>
-				<p>
-                <a href="index.php">Home Page</a>
-                <a href="view_products.php">View All Products</a>
-                </p>';
-            exit();
+				<p>The product record has been edited.</p><p><br /></p>';
 
         } else { // If it did not run OK.
             echo '<h1 id="mainhead">System Error</h1>
-				<p class="error">The movie could not be edited due to a system error. We apologize for any inconvenience.</p>'; // Public message.
+				<p class="error">The product could not be edited due to a system error.</p>'; // Public message.
             echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>
             <p>
             <a href="index.php">Home Page</a>
@@ -133,7 +125,6 @@ if (isset($_POST['submitted'])) {
 
 // Always show the form.
 
-// Retrieve the movies's information.
 $query = "select p.p_name, p.p_releasedate, p.p_price, p.idManufacturer, p.idProduct_Subtype, m.m_name, ps.s_name from products as p, manufacturer as m, product_subtype as ps where p.idManufacturer = m.idManufacturer AND p.idProduct_Subtype = ps.idProduct_Subtype AND p.idProducts = $id ";
 $result = @mysqli_query ($dbc, $query); // Run the query.
 
@@ -177,7 +168,6 @@ echo '<p>Price: <input type="text" name="price" size="10" maxlength="10" value='
     }
     echo '/> </p>';
 
-// Build the query for director drop-down
     echo '<p>Manufacturer: <select name="manufacturer_id">';
     $query = "SELECT idManufacturer, m_name FROM manufacturer";
     $result = @mysqli_query ($dbc, $query);
@@ -213,7 +203,6 @@ echo '<p>Price: <input type="text" name="price" size="10" maxlength="10" value='
 
     echo '<p>Product SubType: <select name="subtype_id">';
 
-    // Build the query for genre drop-down
     $query = "SELECT idProduct_Subtype, s_name FROM product_subtype";
     $result = @mysqli_query ($dbc, $query);
     if (isset($_POST['manufacturer_id'])){
@@ -290,7 +279,7 @@ echo'</select>&nbsp;&nbsp;&nbsp;<a href="add_os.php">Add a new Operating System<
 </p>';
 
 
-echo '<p>Product Image: <input name="image" accept="image/jpeg" type="file"></p>';
+echo '<p>Product Image: <input name="image" accept="image/*" type="file"></p>';
 
 echo '<input type="hidden" name="submitted" value="TRUE" />
 <input type="hidden" name="id" value="' . $id . '" />
@@ -303,7 +292,7 @@ echo '<input type="hidden" name="submitted" value="TRUE" />
 </form>
 ';
 
-} else { // Not a valid movie ID.
+} else {
     echo '<h1 id="mainhead">Page Error</h1>
 	<p class="error">This page has been accessed in error. Not a valid movie ID.</p><p><br /><br /></p>
 	<p>

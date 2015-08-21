@@ -6,13 +6,12 @@
  * Time: 9:52 PM
  */
 
-// This page deletes a movie.
-// This page is accessed through view_movies.php.
+// This page deletes a OS for a Particular Product.
+// This page is accessed through product_details.php.
 
 $page_title = 'Delete a Product';
 
-// Check for a valid movie ID, through GET or POST.
-if ( (isset($_GET['id']))  && (is_numeric($_GET['id'])) && (isset($_GET['idos'])) && (isset($_GET['idos'])) )  { // Accessed through view_movies.php
+if ( (isset($_GET['id']))  && (is_numeric($_GET['id'])) && (isset($_GET['idos'])) && (isset($_GET['idos'])) )  {
     $id = $_GET['id'];
     $idos = $_GET['idos'];
 } elseif ( (isset($_POST['id'])) && (is_numeric($_POST['id'])) && (isset($_POST['idos'])) && (is_numeric($_POST['idos']))  ) { // Form has been submitted.
@@ -20,11 +19,11 @@ if ( (isset($_GET['id']))  && (is_numeric($_GET['id'])) && (isset($_GET['idos'])
     $idos = $_POST['idos'];
 } else { // No valid ID, kill the script.
     echo '<h1 id="mainhead">Page Error</h1>
-	<p class="error">This page has been accessed in error.</p><p><br /><br /></p>';
+	      <p class="error">This page has been accessed in error.</p><p><br /><br /></p>';
     echo '<p>
-    <a href="index.php">Home Page</a>
-    <a href="view_products.php">View All Products</a>
-</p>';
+          <a href="index.php">Home Page</a>
+          <a href="view_products.php">View All Products</a>
+          </p>';
     exit();
 }
 
@@ -38,9 +37,8 @@ if (isset($_POST['submitted'])) {
         $query = "select o_name from operating_system WHERE idOperating_System = $idos";
         $result = @mysqli_query ($dbc, $query); // Run the query.
 
-        if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the result.
+        if (mysqli_num_rows($result) == 1) {
 
-            // Get the movie information.
             $row = mysqli_fetch_array ($result, MYSQL_NUM);
 
             $oname = $row[0];
@@ -48,70 +46,62 @@ if (isset($_POST['submitted'])) {
             $query = "DELETE FROM products_has_operating_system WHERE idProducts=$id AND idOperating_System = $idos";
             $result_del = @mysqli_query ($dbc, $query); // Run the query.
             if (mysqli_affected_rows($dbc) == 1) { // If it ran OK.
-
-
-                // Get the movie information.
-//                $row = mysqli_fetch_array ($result, MYSQL_NUM);
-
                 // Create the result page.
-                echo '<h1 id="mainhead">Delete a OS for this particular product</h1>
-		<p>The OS <b>'.$oname.'</b> has been deleted.</p><p><br /><br /></p>';
+                echo '<h1 id="mainhead">Success!</h1>
+		              <p>The OS <b>'.$oname.'</b> has been deleted for this particular product.</p><p><br /><br /></p>';
                 echo '<p>
-    <a href="index.php">Home Page</a>
-    <a href="view_products.php">View All Products</a>
-</p>';
+                      <a href="index.php">Home Page</a>
+                      <a href="view_products.php">View All Products</a>
+                      </p>';
             } else { // Did not run OK.
                 echo '<h1 id="mainhead">System Error</h1>
-			<p class="error">The os could not be deleted due to a system error.</p>'; // Public message.
+			          <p class="error">The os could not be deleted due to a system error.</p>'; // Public message.
                 echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>'; // Debugging message.
                 echo '<p>
-    <a href="index.php">Home Page</a>
-    <a href="view_products.php">View All Products</a>
-</p>';
+                      <a href="index.php">Home Page</a>
+                      <a href="view_products.php">View All Products</a>
+                      </p>';
             }
         }
 
-        else { // Not a valid movie ID.
+        else {
             echo '<h1 id="mainhead">Page Error</h1>
-		<p class="error">This page has been accessed in error.</p><p><br /><br /></p>';
+		          <p class="error">This page has been accessed in error.</p><p><br /><br /></p>';
             echo '<p>
-    <a href="index.php">Home Page</a>
-    <a href="view_products.php">View All Products</a>
-</p>';
+                  <a href="index.php">Home Page</a>
+                  <a href="view_products.php">View All Products</a>
+                  </p>';
         } //End of else.
 
     } // End of $_POST['sure'] == 'Yes' if().
 
-    else { // Wasn't sure about deleting the movie.
+    else {
         echo '<h1 id="mainhead">Delete a OS for this product</h1>';
 
         $query = "select o_name from operating_system WHERE idOperating_System = $idos";
         $result = @mysqli_query ($dbc, $query); // Run the query.
-        if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the result.
+        if (mysqli_num_rows($result) == 1) {
 
-            // Get the movie information.
             $row = mysqli_fetch_array ($result, MYSQL_NUM);
-
             $oname = $row[0];
 
             // Create the result page.
-            echo'
-		<p>The <b>'.$row[0].'</b> OS has NOT been deleted for this particular product.</p><p><br /><br /></p>';
+            echo '<p>The <b>'.$row[0].'</b> OS has NOT been deleted for this particular product.</p><p><br /><br /></p>';
             echo '<p>
-    <a href="index.php">Home Page</a>
-    <a href="view_products.php">View All Products</a>
-</p>';
-        } else { // Not a valid movie ID.
+                  <a href="index.php">Home Page</a>
+                  <a href="view_products.php">View All Products</a>
+                  </p>';
+        } else {
             echo '<h1 id="mainhead">Page Error</h1>
-		<p class="error">This page has been accessed in error.</p><p><br /><br /></p>';
+		         <p class="error">This page has been accessed in error.</p><p><br /><br /></p>';
             echo '<p>
-    <a href="index.php">Home Page</a>
-    <a href="view_products.php">View All Products</a>
-</p>';
+                  <a href="index.php">Home Page</a>
+                  <a href="view_products.php">View All Products</a>
+                  </p>';
         }
 
 
-    } // End of wasn?t sure else().
+    }
 
 } // End of main submit conditional.
 
@@ -152,7 +142,7 @@ else { // Show the form.
 	echo'</tr>
 	</table>';
 
-	echo '</br></br></br></br><p>Are you sure you want to delete this product?<br />
+	echo '</br></br></br></br><p>Are you sure you want to delete this OS from this Product?<br />
 	<input type="radio" name="sure" value="Yes" /> Yes
 	<input type="radio" name="sure" value="No" checked="checked" /> No</p>
 	<p><input type="submit" name="submit" value="Submit" /></p>
@@ -162,8 +152,8 @@ else { // Show the form.
 	<a href="index.php">Home Page</a>
     <a href="view_products.php">View All Products</a></p>
 	</form>';
-    } //End of valid movie ID if().
-    else { // Not a valid movie ID.
+    }
+    else {
         echo '<h1 id="mainhead">Page Error</h1>
 	<p class="error">This page has been accessed in error. Not a valid Product ID.</p><p><br /><br /></p>';
         echo '<p>

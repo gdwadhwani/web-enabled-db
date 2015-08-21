@@ -9,7 +9,7 @@
 $page_title = 'Products for this Sub Type';
 
 // Page header.
-echo '<h1 id="mainhead">Product SubTypes in the Database:</h1>';
+echo '<h1 id="mainhead">Products of this SubType in the Database:</h1>';
 if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) { // Accessed through view_products.php
     $id = $_GET['id'];
 } elseif ( (isset($_POST['id'])) && (is_numeric($_POST['id'])) ) { // Form has been submitted.

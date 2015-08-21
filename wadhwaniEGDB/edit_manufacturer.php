@@ -8,7 +8,7 @@
 
 $page_title = 'Edit a Manufacturer';
 
-if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) { // Accessed through view_products.php
+if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) {
     $id = $_GET['id'];
 } elseif ( (isset($_POST['id'])) && (is_numeric($_POST['id'])) ) { // Form has been submitted.
     $id = $_POST['id'];
@@ -32,19 +32,19 @@ if (isset($_POST['submitted'])) {
     $errors = array(); // Initialize error array.
 
     if (empty($_POST['mname'])) {
-        $errors[] = 'You forgot to enter the name of the Operating System.';
+        $errors[] = 'You forgot to enter the name of the Manufacturer.';
     } else {
         $mname = $_POST['mname'];
     }
 
     if (empty($_POST['mcity'])) {
-        $errors[] = 'You forgot to enter the version of the OS.';
+        $errors[] = 'You forgot to enter the City.';
     } else {
         $mcity = $_POST['mcity'];
     }
 
     if (empty($_POST['mcountry'])) {
-        $errors[] = 'You forgot to enter the Release date of the product.';
+        $errors[] = 'You forgot to enter the Country.';
     } else {
         $mcountry = $_POST['mcountry'];
     }
@@ -59,15 +59,10 @@ if (isset($_POST['submitted'])) {
 
             // Print a message.
             echo '<h1 id="mainhead">Edit a OS</h1>
-				<p>The Manufacturer record has been edited.</p><p><br /><br /></p>
-				<p>
-        <a href="index.php">Home Page</a>
-        <a href="view_products.php">View All Products</a>
-</p>';
-        exit();
+				<p>The Manufacturer record has been edited.</p><p><br /><br /></p>';
         } else { // If it did not run OK.
             echo '<h1 id="mainhead">System Error</h1>
-				<p class="error">The OS could not be edited due to a system error. We apologize for any inconvenience.</p>'; // Public message.
+				<p class="error">The Manufacturer could not be edited due to a system error. We apologize for any inconvenience.</p>'; // Public message.
             echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>
             <p>
         <a href="index.php">Home Page</a>
@@ -90,17 +85,14 @@ if (isset($_POST['submitted'])) {
 
     }  // End of report errors else()
 
-} // End of submit conditional.
+}
 
 // Always show the form.
 
-// Retrieve the movies's information.
 $query = "SELECT m_name, m_headquarter, m_headquarterState, m_headquarterCountry FROM manufacturer WHERE idManufacturer = $id ";
 $result = @mysqli_query ($dbc, $query); // Run the query.
 
-if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the form.
-
-    // Get the movie's information.
+if (mysqli_num_rows($result) == 1) {
     $row = mysqli_fetch_array ($result, MYSQL_NUM);
     // Create the form.
 
@@ -110,7 +102,7 @@ if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the form.
 <form action="edit_manufacturer.php" method="post">';
 
     echo '
-<p>Manufacturer Name:<input type="text" name="mname" size="20" maxlength="40" value=';
+<p>Manufacturer Name:<input type="text" name="mname" size="20" maxlength="20" value=';
     if(isset($_POST['mname'])) {
         echo "'$_POST[mname]'";
     } else {
@@ -149,9 +141,9 @@ echo '<input type="hidden" name="submitted" value="TRUE" />
 </form>
 ';
 
-} else { // Not a valid movie ID.
+} else {
     echo '<h1 id="mainhead">Page Error</h1>
-	<p class="error">This page has been accessed in error. Not a valid movie ID.</p><p><br /><br /></p>
+	<p class="error">This page has been accessed in error. Not a valid manufacturer ID.</p><p><br /><br /></p>
 	<p>
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>

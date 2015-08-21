@@ -34,9 +34,8 @@ if (isset($_POST['submitted'])) {
         $country = $_POST['country'];
     }
 
-    if (empty($errors)) { // If everything's okay.
+    if (empty($errors)) {
 
-        // Make the query.
         if($_POST['state'] == "") {
             $query = "INSERT INTO manufacturer (m_name, m_headquarter, m_headquarterCountry) VALUES ('$m_name', '$city', '$country')";
         } else {
@@ -44,35 +43,36 @@ if (isset($_POST['submitted'])) {
             $query = "INSERT INTO manufacturer (m_name, m_headquarter, m_headquarterState, m_headquarterCountry) VALUES ('$m_name', '$city', '$state', '$country')";
         }
         $result = @mysqli_query ($dbc, $query); // Run the query.
-        if ($result) { // If it ran OK.
-
-            // Print a message.
+        if ($result) {
             echo '<h1 id="mainhead">Success!</h1>
-		<p>You have added to the Manufacturer table:</p>';
+		          <p>You have added to the Manufacturer table:</p>';
 
             echo "<table>
-		<tr><td>Manufacturer Name:</td><td>{$m_name}</td></tr></table>";
+		          <tr><td>Manufacturer Name:</td><td>{$m_name}</td></tr>
+		          <tr><td>Manufacturer City:<td>{$city}</td></td></tr>
+		          <tr><td>Manufacturer Country:<td>{$country}</td></td></tr>
+		          </table>";
             echo '<p>
-                    <a href="index.php">Home Page</a>
-                    <a href="view_products.php">View All Products</a>
-                    </p>';
+                  <a href="index.php">Home Page</a>
+                  <a href="view_products.php">View All Products</a>
+                  </p>';
             exit();
 
-        } else { // If it did not run OK.
+        } else {
             echo '<h1 id="mainhead">System Error</h1>
-			<p class="error">The genre could not be added due to a system error. We apologize for any inconvenience.</p>'; // Public message.
+			      <p class="error">The Manufacturer could not be added due to a system error.</p>';
             echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>'; // Debugging message.
             echo '<p>
-                    <a href="index.php">Home Page</a>
-                    <a href="add_manufacturer.php">Add Manufacturer</a>
-                    </p>';
+                  <a href="index.php">Home Page</a>
+                  <a href="add_manufacturer.php">Add Manufacturer</a>
+                  </p>';
             exit();
         }
 
     } else { // Report the errors.
 
         echo '<h1 id="mainhead">Error!</h1>
-		<p class="error">The following error(s) occurred:<br />';
+		      <p class="error">The following error(s) occurred:<br />';
         foreach ($errors as $msg) { // Print each error.
             echo " - $msg<br />\n";
         }

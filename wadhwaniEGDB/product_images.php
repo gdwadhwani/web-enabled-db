@@ -15,9 +15,7 @@ if($imageData['p_image'] != NULL){
     echo $imageData['p_image'];
 }
 else {
-    print "fck";
-    echo "No Image to Display";
+     echo '<h1 id="mainhead">No Images to Display</h1>';
 }
-
 ?>
 

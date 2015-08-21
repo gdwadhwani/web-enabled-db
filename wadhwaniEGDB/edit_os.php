@@ -6,13 +6,13 @@
  * Time: 11:01 PM
  */
 
-$page_title = 'Edit a Operating System';
+$page_title = 'Edit an Operating System';
 
-if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) { // Accessed through view_products.php
+if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) { // Accessed through view_os.php
     $id = $_GET['id'];
 } elseif ( (isset($_POST['id'])) && (is_numeric($_POST['id'])) ) { // Form has been submitted.
     $id = $_POST['id'];
-} else { // No valid ID, kill the script.
+} else {
     echo '<h1 id="mainhead">Page Error</h1>
 	<p class="error">This page has been accessed in error.</p><p><br /><br /></p>
 	<p>
@@ -59,16 +59,11 @@ if (isset($_POST['submitted'])) {
 
             // Print a message.
             echo '<h1 id="mainhead">Edit a OS</h1>
-				<p>The OS record has been edited.</p><p><br /><br /></p>
-				<p>
-        <a href="index.php">Home Page</a>
-        <a href="view_products.php">View All Products</a>
-</p>';
-            exit();
+				<p>The OS record has been edited.</p><p><br /><br /></p>';
 
         } else { // If it did not run OK.
             echo '<h1 id="mainhead">System Error</h1>
-				<p class="error">The OS could not be edited due to a system error. We apologize for any inconvenience.</p>'; // Public message.
+				<p class="error">The OS could not be edited due to a system error.</p>'; // Public message.
             echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>
             <p>
         <a href="index.php">Home Page</a>
@@ -94,13 +89,10 @@ if (isset($_POST['submitted'])) {
 
 // Always show the form.
 
-// Retrieve the movies's information.
 $query = "SELECT o_name, o_latestversion, o_releasedate, o_free FROM operating_system WHERE idOperating_System = $id ";
 $result = @mysqli_query ($dbc, $query); // Run the query.
 
-if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the form.
-
-    // Get the movie's information.
+if (mysqli_num_rows($result) == 1) {
     $row = mysqli_fetch_array ($result, MYSQL_NUM);
     // Create the form.
 
@@ -109,9 +101,6 @@ if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the form.
 
 <form action="edit_os.php" method="post">';
 
-    #$query = "SELECT o_name, o_latestversion, o_releasedate, o_free FROM operating_system WHERE idOperating_System = $id ";
-    #$result = @mysqli_query ($dbc, $query); // Run the query.
-    #$row = mysqli_fetch_array ($result, MYSQL_NUM);
     echo '
 <p>Name: <input type="text" name="oname" size="20" maxlength="40" value=';
     if(isset($_POST['oname'])) {
@@ -135,7 +124,6 @@ echo '<p>Release Date: <input type="date" name="releasedate" size="20" maxlength
     }
     echo '/> </p>';
 
-// Build the query for director drop-down
     echo '<p>OS Type: <select name="price">';
     if(isset($_POST['price'])) {
         if ($_POST['price'] == 1) {
@@ -169,7 +157,7 @@ echo '<p>Release Date: <input type="date" name="releasedate" size="20" maxlength
 </form>
 ';
 
-} else { // Not a valid movie ID.
+} else {
     echo '<h1 id="mainhead">Page Error</h1>
 	<p class="error">This page has been accessed in error. Not a valid movie ID.</p><p><br /><br /></p>
 	<p>

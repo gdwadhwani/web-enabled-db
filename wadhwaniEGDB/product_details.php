@@ -99,7 +99,7 @@ echo '</b></p>';
         echo '<div style="float: left;"><table align="left" cellspacing="0" cellpadding="5" border="True" style="display: block">
 <tr>
 	<td align="left"><b>Edit</b></td>
-	<td align="left"><b>Delete</b></td>
+	<td align="left"><b>Delete OS from this Product</b></td>
 	<td align="left"><b>Operating System </b></td>
 	<td align="left"><b>Latest Version</b></td>
 	<td align="left"><b>Release Date</b></td>
@@ -145,7 +145,7 @@ echo '</b></p>';
         </p>';
     }
 
-} else { // Not a valid movie ID.
+} else {
     echo '<h1 id="mainhead">Page Error</h1>
 	<p class="error">This page has been accessed in error. Not a valid Product ID.</p><p><br /><br /></p>';
     echo '<p>

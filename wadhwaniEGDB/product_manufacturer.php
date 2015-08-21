@@ -9,8 +9,8 @@
 $page_title = 'Products from this Manufacturer';
 
 // Page header.
-echo '<h1 id="mainhead">Product SubTypes in the Database:</h1>';
-if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) { // Accessed through view_products.php
+echo '<h1 id="mainhead">Products for a particular Manufacturer in the Database:</h1>';
+if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) {
     $id = $_GET['id'];
 } elseif ( (isset($_POST['id'])) && (is_numeric($_POST['id'])) ) { // Form has been submitted.
     $id = $_POST['id'];

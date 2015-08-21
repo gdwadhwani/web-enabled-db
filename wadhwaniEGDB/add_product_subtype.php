@@ -6,7 +6,7 @@
  * Time: 11:28 PM
  */
 
-$page_title = 'Add Operating System';
+$page_title = 'Add Product SubType';
 
 include ('connect.php');
 
@@ -36,20 +36,11 @@ if (isset($_POST['submitted'])) {
 
             // Print a message.
             echo '<h1 id="mainhead">Success!</h1>
-		<p>You have added to the Product SubType table:</p>';
-
-            echo "<table>
-		<tr><td>Sub Type Name:</td><td>{$st_name}</td></tr></table>";
-            echo '<p>
-                    <a href="index.php">Home Page</a>
-                    <a href="view_products.php">View All Products</a>
-                  </p>';
-
-            exit();
+		          <p>You have added to the Product SubType table:</p>';
 
         } else { // If it did not run OK.
             echo '<h1 id="mainhead">System Error</h1>
-			<p class="error">The genre could not be added due to a system error. We apologize for any inconvenience.</p>'; // Public message.
+			      <p class="error">The Subtype could not be added due to a system error.</p>';
             echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>';
             echo '<p>
                     <a href="index.php">Home Page</a>
@@ -61,7 +52,7 @@ if (isset($_POST['submitted'])) {
     } else { // Report the errors.
 
         echo '<h1 id="mainhead">Error!</h1>
-		<p class="error">The following error(s) occurred:<br />';
+		      <p class="error">The following error(s) occurred:<br />';
         foreach ($errors as $msg) { // Print each error.
             echo " - $msg<br />\n";
         }
@@ -70,7 +61,7 @@ if (isset($_POST['submitted'])) {
     } // End of if (empty($errors)) IF.
 
 
-    mysqli_close($dbc); // Close the database connection.
+mysqli_close($dbc); // Close the database connection.
 
 } // End of the main Submit conditional.
 ?>
@@ -95,7 +86,7 @@ if (isset($_POST['submitted'])) {
         {
             echo'<option
             value="'.$row['idProduct_Type'].'">'.$row['p_type'].'
-        </option>';
+            </option>';
         }
     }
     echo "</select>";

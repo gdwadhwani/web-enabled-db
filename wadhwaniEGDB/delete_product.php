@@ -6,13 +6,13 @@
  * Time: 11:02 PM
  */
 
-// This page deletes a movie.
-// This page is accessed through view_movies.php.
+// This page deletes a Product
+// This page is accessed through view_products.php.
 
 $page_title = 'Delete a Product';
 
-// Check for a valid movie ID, through GET or POST.
-if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) { // Accessed through view_movies.php
+
+if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) {
     $id = $_GET['id'];
 } elseif ( (isset($_POST['id'])) && (is_numeric($_POST['id'])) ) { // Form has been submitted.
     $id = $_POST['id'];
@@ -22,7 +22,7 @@ if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) { // Accessed through v
     echo '<p>
     <a href="index.php">Home Page</a>
     <a href="view_products.php">View All Products</a>
-</p>';
+    </p>';
     exit();
 }
 
@@ -37,9 +37,7 @@ if (isset($_POST['submitted'])) {
         $query = "select p.p_name, p.p_releasedate, p.p_price, m.m_name, ps.s_name from products as p, manufacturer as m, product_subtype as ps where p.idManufacturer = m.idManufacturer AND p.idProduct_Subtype = ps.idProduct_Subtype AND p.idProducts = $id";
         $result = @mysqli_query ($dbc, $query); // Run the query.
 
-        if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the result.
-
-            // Get the movie information.
+        if (mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_array ($result, MYSQL_NUM);
 
             $pname = $row[0];
@@ -52,47 +50,41 @@ if (isset($_POST['submitted'])) {
             $result_del = @mysqli_query ($dbc, $query); // Run the query.
             if (mysqli_affected_rows($dbc) == 1) { // If it ran OK.
 
-
-                // Get the movie information.
-//                $row = mysqli_fetch_array ($result, MYSQL_NUM);
-
                 // Create the result page.
-                echo '<h1 id="mainhead">Delete a Movie</h1>
-		<p>The movie <b>'.$pname.'</b> from year <b>'.$pprice.'</b> has been deleted.</p><p><br /><br /></p>';
+                echo '<h1 id="mainhead">Delete a Product: Success</h1>
+		              <p>The Product <b>'.$pname.'</b> has been deleted.</p><p><br /></p>';
                 echo '<p>
-    <a href="index.php">Home Page</a>
-    <a href="view_products.php">View All Products</a>
-</p>';
+                      <a href="index.php">Home Page</a>
+                      <a href="view_products.php">View All Products</a>
+                      </p>';
             } else { // Did not run OK.
                 echo '<h1 id="mainhead">System Error</h1>
-			<p class="error">The movie could not be deleted due to a system error.</p>'; // Public message.
+			<p class="error">The Product could not be deleted due to a system error.</p>'; // Public message.
                 echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>'; // Debugging message.
                 echo '<p>
-    <a href="index.php">Home Page</a>
-    <a href="view_products.php">View All Products</a>
-</p>';
+                    <a href="index.php">Home Page</a>
+                    <a href="view_products.php">View All Products</a>
+                    </p>';
             }
-
-
         }
 
-        else { // Not a valid movie ID.
+        else {
             echo '<h1 id="mainhead">Page Error</h1>
-		<p class="error">This page has been accessed in error.</p><p><br /><br /></p>';
+		        <p class="error">This page has been accessed in error.</p><p><br /></p>';
             echo '<p>
-    <a href="index.php">Home Page</a>
-    <a href="view_products.php">View All Products</a>
-</p>';
+                  <a href="index.php">Home Page</a>
+                  <a href="view_products.php">View All Products</a>
+                  </p>';
         } //End of else.
 
     } // End of $_POST['sure'] == 'Yes' if().
-    else { // Wasn't sure about deleting the movie.
-        echo '<h1 id="mainhead">Delete a Movie</h1>';
+    else {
+        echo '<h1 id="mainhead">Delete a Product</h1>';
 
         $query = "select p.p_name, p.p_releasedate, p.p_price, m.m_name, ps.s_name from products as p, manufacturer as m, product_subtype as ps where p.idManufacturer = m.idManufacturer AND p.idProduct_Subtype = ps.idProduct_Subtype AND p.idProducts = $id";
         $result = @mysqli_query ($dbc, $query); // Run the query.
 
-        if (mysqli_num_rows($result) == 1) { // Valid movie ID, show the result.
+        if (mysqli_num_rows($result) == 1) {
 
             // Get the movie information
             $row = mysqli_fetch_array ($result, MYSQL_NUM);
@@ -104,22 +96,22 @@ if (isset($_POST['submitted'])) {
 
             // Create the result page.
             echo'
-		<p>The movie <b>'.$row[0].'</b> from year <b>'.$row[2].'</b> has NOT been deleted.</p><p><br /><br /></p>';
+		<p>The Product <b>'.$row[0].'</b> has NOT been deleted.</p><p><br /></p>';
             echo '<p>
-    <a href="index.php">Home Page</a>
-    <a href="view_products.php">View All Products</a>
-</p>';
-        } else { // Not a valid movie ID.
+                 <a href="index.php">Home Page</a>
+                 <a href="view_products.php">View All Products</a>
+                 </p>';
+        } else {
             echo '<h1 id="mainhead">Page Error</h1>
-		<p class="error">This page has been accessed in error.</p><p><br /><br /></p>';
+		    <p class="error">This page has been accessed in error.</p><p><br /><br /></p>';
             echo '<p>
-    <a href="index.php">Home Page</a>
-    <a href="view_products.php">View All Produts</a>
-</p>';
+            <a href="index.php">Home Page</a>
+            <a href="view_products.php">View All Produts</a>
+            </p>';
         }
 
 
-    } // End of wasn?t sure else().
+    }
 
 } // End of main submit conditional.
 
@@ -206,8 +198,8 @@ else { // Show the form.
 	<a href="index.php">Home Page</a>
     <a href="view_products.php">View All Products</a></p>
 	</form>';
-} //End of valid movie ID if().
-    else { // Not a valid movie ID.
+}
+    else {
         echo '<h1 id="mainhead">Page Error</h1>
 	<p class="error">This page has been accessed in error. Not a valid Product ID.</p><p><br /><br /></p>';
         echo '<p>
