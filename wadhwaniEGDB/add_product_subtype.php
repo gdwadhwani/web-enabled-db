@@ -45,6 +45,7 @@ if (isset($_POST['submitted'])) {
             echo '<p>
                     <a href="index.php">Home Page</a>
                     <a href="add_product_subtype.php">Add Product Subtype</a>
+                    <a href="view_products.php">View All Products</a>
                   </p>';// Debugging message.
             exit();
         }
@@ -97,5 +98,6 @@ mysqli_close($dbc); // Close the database connection.
     <p>
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>
+        <a href="view_product_subtype.php">View All Product SubTypes</a>
     </p>
 </form>

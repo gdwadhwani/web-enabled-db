@@ -136,12 +136,14 @@ echo '</b></p>';
             </br>
             <a href="index.php">Home Page</a>
             <a href="view_products.php">View All Products</a>
+            <a href = "edit_product.php?id=' . $id . '">Edit Product</a>
             </p>
         </div></br>';
     } else{
         echo '<p>
     <a href="index.php">Home Page</a>
     <a href="view_products.php">View All Products</a>
+    <a href = "edit_product.php?id=' . $id . '">Edit Product</a>
         </p>';
     }
 

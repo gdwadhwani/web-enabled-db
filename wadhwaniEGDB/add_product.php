@@ -46,17 +46,20 @@ if (isset($_POST['submitted'])) {
     } else {
         $os = $_POST['os'];
     }
-    if (isset($_FILES['image']) && $_FILES['image']['size'] > 0 && ($_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/png")) {
-
-        //    Temporary file name stored on the server
-        $tmpName = $_FILES['image']['tmp_name'];
-// Read the file
-        $fp = fopen($tmpName, 'r');
-        $data = fread($fp, filesize($tmpName));
-        $data = addslashes($data);
-        fclose($fp);
+    if (isset($_FILES['image']) && $_FILES['image']['size'] > 0 ) {
+        if($_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/png") {
+            //    Temporary file name stored on the server
+            $tmpName = $_FILES['image']['tmp_name'];
+            // Read the file
+            $fp = fopen($tmpName, 'r');
+            $data = fread($fp, filesize($tmpName));
+            $data = addslashes($data);
+            fclose($fp);
+        } else {
+            $errors[] = 'Incorrect File type for Image. Only Jpeg and Png Supported';
+        }
     } else {
-        $errors[] = 'Incorrect File type for Image. Only Jpeg and Png Supported';
+
         $data = '';
     }
 
@@ -82,8 +85,12 @@ if (isset($_POST['submitted'])) {
             if($result){
                 echo '<h1 id="mainhead">Success!</h1>
 		              <p>Product Addded: <b>'.$pname.'</b></p>
-                      <p>Check the below form for the additional details</p>';
+                      <p>Click on View Product Details to navigate to view additional details about this product</p>
 
+                      <a href="index.php">Home Page</a>
+                      <a href = "product_details.php?id=' . $product_id . '">View Product Details</a>
+                      <a href="view_products.php">View All Product</a>';
+                      exit();
             } else {
                 echo '<h1 id="mainhead">System Error</h1>
 			          <p class="error">The Product could not be added due to a system error.</p>';
@@ -91,6 +98,7 @@ if (isset($_POST['submitted'])) {
                 echo '<p>
                       <a href="index.php">Home Page</a>
                       <a href="add_product.php">Add Product</a>
+                      <a href="view_products.php">View All Product</a>
                       </p>';
                 exit();
             }
@@ -102,6 +110,7 @@ if (isset($_POST['submitted'])) {
             echo '<p>
                   <a href="index.php">Home Page</a>
                   <a href="add_product.php">Add Product</a>
+                  <a href="view_products.php">View All Product</a>
                   </p>';
             exit();
         }

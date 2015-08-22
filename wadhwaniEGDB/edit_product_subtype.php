@@ -14,9 +14,11 @@ if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) {
     $id = $_POST['id'];
 } else { // No valid ID, kill the script.
     echo '<h1 id="mainhead">Page Error</h1>
-	<p class="error">This page has been accessed in error.</p><p><br /><br /></p><p>
+        <p class="error">This page has been accessed in error.</p>
+	<p>
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>
+        <a href="view_product_subtype.php">View All Product Subtype</a>
     </p>';
     exit();
 }
@@ -51,15 +53,16 @@ if (isset($_POST['submitted'])) {
         if ((mysqli_affected_rows($dbc) == 1) || (mysqli_affected_rows($dbc) == 0)) { // If it ran OK.
 
             // Print a message.
-            echo '<h1 id="mainhead">Edit a Product SubType</h1>
-				<p>The Product SubType record has been edited.</p><p><br /><br /></p><p>';
+            echo '<p><b>The Product SubType record has been edited.</b></p><p><br/></p><p>';
 
         } else { // If it did not run OK.
             echo '<h1 id="mainhead">System Error</h1>
 				<p class="error">The Product Subtype could not be edited due to a system error.</p>'; // Public message.
             echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p><p>
+        <p>
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>
+        <a href="view_product_subtype.php">View All Product Subtype</a>
     </p>';// Debugging message.
             exit();
         }
@@ -86,7 +89,6 @@ $result = @mysqli_query ($dbc, $query); // Run the query.
 
 if (mysqli_num_rows($result) == 1) {
 
-    // Get the movie's information.
     $row = mysqli_fetch_array ($result, MYSQL_NUM);
     $this_type_id=$row[1];
     // Create the form.
@@ -139,15 +141,20 @@ if (mysqli_num_rows($result) == 1) {
     echo '<input type="hidden" name="submitted" value="TRUE" />
 <input type="hidden" name="id" value="' . $id . '" />
 <p><input type="submit" name="submit" value="Submit" /></p>
-</form>
+<p>
+        <a href="index.php">Home Page</a>
+        <a href="view_products.php">View All Products</a>
+        <a href="view_product_subtype.php">View All Product Subtype</a>
+</p></form>
 ';
 
 } else {
     echo '<h1 id="mainhead">Page Error</h1>
-	<p class="error">This page has been accessed in error. Not a valid movie ID.</p><p><br /><br /></p>
+	<p class="error">This page has been accessed in error. Not a valid Product Subtype ID.</p><p><br /><br /></p>
 	<p>
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>
+        <a href="view_product_subtype.php">View All Product Subtype</a>
     </p>';
 }
 mysqli_close($dbc); // Close the database connection.

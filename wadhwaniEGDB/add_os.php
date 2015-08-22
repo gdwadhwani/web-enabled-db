@@ -54,6 +54,7 @@ if (isset($_POST['submitted'])) {
             echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>'; // Debugging message.
             echo '<p>
                     <a href="index.php">Home Page</a>
+                    <a href="view_products.php">View All Products</a>
                     <a href="add_os.php">Add Operating System</a>
                   </p>';
             exit();
@@ -102,6 +103,7 @@ mysqli_close($dbc); // Close the database connection.
     <p>
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>
+        <a href="view_os.php">View All OS</a>
     </p>
     <input type="hidden" name="submitted" value="TRUE" />
 </form>

@@ -173,6 +173,7 @@ if ($num_pages > 1) {
 echo '<p>
     <a href="index.php">Home Page</a>
     <a href="add_manufacturer.php">Add Manufacturer</a>
+    <a href="view_products.php">View All Products</a>
 </p>';
 
 ?>

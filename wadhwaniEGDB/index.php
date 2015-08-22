@@ -13,7 +13,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="add_product.php">Add a Product</a><br/>
 
 <h3>Operating System</h3>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="view_os.php">View All Operating Systems</a> (You can Edit or Delete Operating Systems through this view, as well.)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="view_os.php">View All Operating Systems</a> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="add_os.php">Add an Operating System</a><br/>
 
 <h3>Product Subtype</h3>

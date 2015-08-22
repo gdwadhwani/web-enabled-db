@@ -31,7 +31,6 @@ if (isset($_POST['submitted'])) {
 
     $errors = array(); // Initialize error array.
 
-    // Check for a title.
     if (empty($_POST['pname'])) {
         $errors[] = 'You forgot to enter the name of the Product.';
     } else {
@@ -39,7 +38,7 @@ if (isset($_POST['submitted'])) {
     }
 
     if (empty($_POST['price']) || !is_numeric($_POST['price'])) {
-        $errors[] = 'You forgot to enter the price of the Product.';
+        $errors[] = 'You forgot to enter the price of the Product. or it is not numeric';
     } else {
         $price = $_POST['price'];
     }
@@ -62,17 +61,21 @@ if (isset($_POST['submitted'])) {
         $osupdate = $_POST['os'];
     }
 
-    if (isset($_FILES['image']) && $_FILES['image']['size'] > 0 && ($_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/png")) {
+    if (isset($_FILES['image']) && $_FILES['image']['size'] > 0) {
 
-        //    Temporary file name stored on the server
+        if($_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/png") {
+            //    Temporary file name stored on the server
         $tmpName = $_FILES['image']['tmp_name'];
-// Read the file
+        // Read the file
         $fp = fopen($tmpName, 'r');
         $data = fread($fp, filesize($tmpName));
         $data = addslashes($data);
         fclose($fp);
     } else {
-        $errors[] = 'Incorrect File type for Image. Only Jpeg and Png Supported';
+            $errors[] = 'Incorrect File type for Image. Only Jpeg and Png Supported';
+        }
+    } else {
+
         $data = '';
     }
     if (empty($errors)) { // If everything's OK.
@@ -81,7 +84,7 @@ if (isset($_POST['submitted'])) {
             $releasedate = $_POST['releasedate'];
             $query = "UPDATE products SET p_name='$pname', p_releasedate='$releasedate', p_price='$price', idManufacturer='$manufacturer_id', idProduct_Subtype='$subtype_id', p_image = '$data' WHERE idProducts = $id";
         } else {
-            $query = "UPDATE products SET p_name='$pname', p_price='$price', idManufacturer='$manufacturer_id', idProduct_Subtype='$subtype_id', p_image = '$data' WHERE idProducts = $id";
+            $query = "UPDATE products SET p_name='$pname', p_price='$price', idManufacturer='$manufacturer_id', idProduct_Subtype='$subtype_id', p_image = '$data', p_releasedate = NULL WHERE idProducts = $id";
         }
         $result = @mysqli_query ($dbc, $query); // Run the query.
         if ((mysqli_affected_rows($dbc) == 1) || (mysqli_affected_rows($dbc) == 0)) { // If it ran OK.
@@ -94,8 +97,7 @@ if (isset($_POST['submitted'])) {
                 }
             }
             // Print a message.
-            echo '<h1 id="mainhead">Edit a Product</h1>
-				<p>The product record has been edited.</p><p><br /></p>';
+            echo '<p><b>The product record has been edited.</b></p><p><br/></p>';
 
         } else { // If it did not run OK.
             echo '<h1 id="mainhead">System Error</h1>
@@ -104,6 +106,7 @@ if (isset($_POST['submitted'])) {
             <p>
             <a href="index.php">Home Page</a>
             <a href="view_products.php">View All Products</a>
+            <a href = "product_details.php?id=' . $id . '">View Product Details</a>
             </p>'; // Debugging message.
             exit();
         }
@@ -287,6 +290,7 @@ echo '<input type="hidden" name="submitted" value="TRUE" />
 <p>
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>
+        <a href = "product_details.php?id=' . $id . '">View Product Details</a>
 </p>
 
 </form>
@@ -294,7 +298,7 @@ echo '<input type="hidden" name="submitted" value="TRUE" />
 
 } else {
     echo '<h1 id="mainhead">Page Error</h1>
-	<p class="error">This page has been accessed in error. Not a valid movie ID.</p><p><br /><br /></p>
+	<p class="error">This page has been accessed in error. Not a valid Product ID.</p><p><br /><br /></p>
 	<p>
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>

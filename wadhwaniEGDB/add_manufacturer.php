@@ -55,6 +55,7 @@ if (isset($_POST['submitted'])) {
             echo '<p>
                   <a href="index.php">Home Page</a>
                   <a href="view_products.php">View All Products</a>
+                  <a href="view_manufacturer.php">View All Manufacturers</a>
                   </p>';
             exit();
 
@@ -64,6 +65,7 @@ if (isset($_POST['submitted'])) {
             echo '<p>' . mysqli_error($dbc) . '<br /><br />Query: ' . $query . '</p>'; // Debugging message.
             echo '<p>
                   <a href="index.php">Home Page</a>
+                  <a href="view_products.php">View All Products</a>
                   <a href="add_manufacturer.php">Add Manufacturer</a>
                   </p>';
             exit();
@@ -96,5 +98,6 @@ if (isset($_POST['submitted'])) {
     <p>
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>
+        <a href="view_manufacturer.php">View All Manufacturers</a>
     </p>
 </form>

@@ -151,6 +151,7 @@ if ($num_pages > 1) {
 echo '<p>
     <a href="index.php">Home Page</a>
     <a href="add_product_subtype.php">Add Product SubType</a>
+    <a href="view_products.php">View All Products</a>
     </p>';
 ?>
 

@@ -20,6 +20,8 @@ if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) {
     echo '<p>
     <a href="index.php">Home Page</a>
     <a href="view_products.php">View All Products</a>
+    <a href="view_os.php">View All OS</a>
+
     </p>';
     exit();
 }
@@ -124,9 +126,9 @@ if (isset($_GET['sort'])) {
 $query = "select p.idProducts, p.p_name, p.p_releasedate, p.p_price, m.m_name, ps.s_name from products as p, manufacturer as m, product_subtype as ps, products_has_operating_system as pos where p.idManufacturer = m.idManufacturer AND p.idProduct_Subtype = ps.idProduct_Subtype AND pos.idProducts = p.idProducts AND pos.idOperating_System = '$id' ORDER BY $order_by LIMIT $start, $display";
 $result = @mysqli_query ($dbc, $query); // Run the query.
 
-// Table header.
-echo "Ordered by $order_by";
-echo '<table align="center" cellspacing="0" cellpadding="5" border="True">
+if (mysqli_num_rows($result) > 1) {
+    echo "Ordered by $order_by";
+    echo '<table align="center" cellspacing="0" cellpadding="5" border="True">
 <tr>
 	<td align="left"><b>Edit</b></td>
 	<td align="left"><b>Delete</b></td>
@@ -136,15 +138,16 @@ echo '<table align="center" cellspacing="0" cellpadding="5" border="True">
 	<td align="left"><b><a href="' . $link4 . '">Manufacturer</a></b></td>
 	<td align="left"><b><a href="' . $link5 . '">Subtype</a></b></td>
 	<td align="left"><b>Details</b></td>
+	<td align="left"><b>Images</b></td>
 </tr>
 ';
 
 
 // Fetch and print all the records.
-$bg = '#eeeeee'; // Set the background color.
-while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
-    $bg = ($bg=='#eeeeee' ? '#ffffff' : '#eeeeee'); // Switch the background color.
-    echo '<tr bgcolor="' . $bg . '">
+    $bg = '#eeeeee'; // Set the background color.
+    while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
+        $bg = ($bg=='#eeeeee' ? '#ffffff' : '#eeeeee'); // Switch the background color.
+        echo '<tr bgcolor="' . $bg . '">
 		<td align="left"><a href="edit_product.php?id=' . $row['idProducts'] . '">Edit</a></td>
 		<td align="left"><a href="delete_product.php?id=' . $row['idProducts'] . '">Delete</a></td>
 		<td align="left">' . $row['p_name'] . '</td>
@@ -153,16 +156,20 @@ while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 		<td align="left">' . $row['m_name'] . '</td>
 		<td align="left">' . $row['s_name'] . '</td>
 		<td align="left"><a href="product_details.php?id=' . $row['idProducts'] . '">View Details</a></td>
-
+        <td align="left"><a href="product_images.php?id=' . $row['idProducts'] . '" target="_blank">View Image</a></td>
 	</tr>
 	';
+    }
+
+    echo '</table>';
+
+    mysqli_free_result ($result); // Free up the resources.
+
+    mysqli_close($dbc); // Close the database connection.
 }
-
-echo '</table>';
-
-mysqli_free_result ($result); // Free up the resources.
-
-mysqli_close($dbc); // Close the database connection.
+else {
+    echo '<h2>No Products are listed for this OS</h2>';
+}
 
 // Make the links to other pages, if necessary.
 if ($num_pages > 1) {
@@ -198,6 +205,7 @@ if ($num_pages > 1) {
 echo '<p>
     <a href="index.php">Home Page</a>
     <a href="view_products.php">View All Products</a>
+    <a href="view_os.php">View All OS</a>
 </p>';
 ?>
 

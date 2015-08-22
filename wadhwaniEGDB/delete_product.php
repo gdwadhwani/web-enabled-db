@@ -64,6 +64,7 @@ if (isset($_POST['submitted'])) {
                 echo '<p>
                     <a href="index.php">Home Page</a>
                     <a href="view_products.php">View All Products</a>
+                    <a href = "product_details.php?id=' . $id . '">View Product Details</a>
                     </p>';
             }
         }
@@ -86,7 +87,6 @@ if (isset($_POST['submitted'])) {
 
         if (mysqli_num_rows($result) == 1) {
 
-            // Get the movie information
             $row = mysqli_fetch_array ($result, MYSQL_NUM);
             $pname = $row[0];
             $preleasedate = $row[1];
@@ -100,6 +100,7 @@ if (isset($_POST['submitted'])) {
             echo '<p>
                  <a href="index.php">Home Page</a>
                  <a href="view_products.php">View All Products</a>
+                 <a href = "product_details.php?id=' . $id . '">View Product Details</a>
                  </p>';
         } else {
             echo '<h1 id="mainhead">Page Error</h1>

@@ -58,8 +58,7 @@ if (isset($_POST['submitted'])) {
         if ((mysqli_affected_rows($dbc) == 1) || (mysqli_affected_rows($dbc) == 0)) { // If it ran OK.
 
             // Print a message.
-            echo '<h1 id="mainhead">Edit a OS</h1>
-				<p>The Manufacturer record has been edited.</p><p><br /><br /></p>';
+            echo '<p><b>The Manufacturer record has been edited.</b></p><p><br /></p>';
         } else { // If it did not run OK.
             echo '<h1 id="mainhead">System Error</h1>
 				<p class="error">The Manufacturer could not be edited due to a system error. We apologize for any inconvenience.</p>'; // Public message.
@@ -137,6 +136,7 @@ echo '<input type="hidden" name="submitted" value="TRUE" />
 <p>
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>
+        <a href="view_manufacturer.php">View All Manufacturers</a>
 </p>
 </form>
 ';
@@ -147,6 +147,7 @@ echo '<input type="hidden" name="submitted" value="TRUE" />
 	<p>
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>
+        <a href="view_manufacturer.php">View All Manufacturers</a>
     </p>
 	';
 }

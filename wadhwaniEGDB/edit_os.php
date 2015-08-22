@@ -18,6 +18,7 @@ if ( (isset($_GET['id'])) && (is_numeric($_GET['id'])) ) { // Accessed through v
 	<p>
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>
+        <a href="view_os.php">View All OS</a>
 </p>';
     exit();
 }
@@ -58,8 +59,7 @@ if (isset($_POST['submitted'])) {
         if ((mysqli_affected_rows($dbc) == 1) || (mysqli_affected_rows($dbc) == 0)) { // If it ran OK.
 
             // Print a message.
-            echo '<h1 id="mainhead">Edit a OS</h1>
-				<p>The OS record has been edited.</p><p><br /><br /></p>';
+            echo '<p><b>The OS record has been edited.</b></p><p><br /></p>';
 
         } else { // If it did not run OK.
             echo '<h1 id="mainhead">System Error</h1>
@@ -68,6 +68,7 @@ if (isset($_POST['submitted'])) {
             <p>
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>
+        <a href="view_os.php">View All OS</a>
 </p>'; // Debugging message.
             exit();
         }
@@ -153,16 +154,18 @@ echo '<p>Release Date: <input type="date" name="releasedate" size="20" maxlength
 <p>
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>
+        <a href="view_os.php">View All OS</a>
 </p>
 </form>
 ';
 
 } else {
     echo '<h1 id="mainhead">Page Error</h1>
-	<p class="error">This page has been accessed in error. Not a valid movie ID.</p><p><br /><br /></p>
+	<p class="error">This page has been accessed in error. Not a valid OS ID.</p><p><br /><br /></p>
 	<p>
         <a href="index.php">Home Page</a>
         <a href="view_products.php">View All Products</a>
+        <a href="view_os.php">View All OS</a>
     </p>';
 }
 
